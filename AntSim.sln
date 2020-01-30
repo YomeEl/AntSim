@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29009.5
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AntSim", "AntSim\AntSim.csproj", "{05E102B4-A336-4A6C-A20C-87734B295B37}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{05E102B4-A336-4A6C-A20C-87734B295B37}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05E102B4-A336-4A6C-A20C-87734B295B37}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05E102B4-A336-4A6C-A20C-87734B295B37}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05E102B4-A336-4A6C-A20C-87734B295B37}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6ACF8141-0CF6-4859-BEDE-118AE15F24E7}
+	EndGlobalSection
+EndGlobal
