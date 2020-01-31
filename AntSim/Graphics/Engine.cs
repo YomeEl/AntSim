@@ -27,14 +27,19 @@ namespace AntSim.Graphics
             Camera = new Camera();
         }
 
-        private void Win_MouseWheelScrolled(object sender, MouseWheelScrollEventArgs e)
+        private void ChangeCellSize(float amount)
         {
             float newCellSize = cellSize;
-            newCellSize += e.Delta;
+            newCellSize += amount;
             if (newCellSize < 2) newCellSize = 2;
             if (newCellSize > 100) newCellSize = 100;
             Camera.Position *= newCellSize / cellSize;
             cellSize = (byte)newCellSize;
+        }
+
+        private void Win_MouseWheelScrolled(object sender, MouseWheelScrollEventArgs e)
+        {
+            ChangeCellSize(e.Delta);
         }
 
         private void Win_Closed(object sender, System.EventArgs e)
@@ -57,8 +62,8 @@ namespace AntSim.Graphics
             if (Keyboard.IsKeyPressed(Keyboard.Key.S)) Camera.Position.Y += speed;
             if (Keyboard.IsKeyPressed(Keyboard.Key.D)) Camera.Position.X += speed;
 
-            if (Keyboard.IsKeyPressed(Keyboard.Key.Add) && cellSize < 100) cellSize++;
-            if (Keyboard.IsKeyPressed(Keyboard.Key.Subtract) && cellSize > 2) cellSize--;
+            if (Keyboard.IsKeyPressed(Keyboard.Key.Add) && cellSize < 100) ChangeCellSize(1);
+            if (Keyboard.IsKeyPressed(Keyboard.Key.Subtract) && cellSize > 2) ChangeCellSize(-1);
 
             var currentMousePosition = Mouse.GetPosition();
             if (Mouse.IsButtonPressed(Mouse.Button.Left))
