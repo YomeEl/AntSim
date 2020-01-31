@@ -114,7 +114,13 @@ namespace AntSim.Simulation
                     }
                 }
 
-                switch (ant.Rotation = ant.Move(vicinity))
+                var direction = ant.Move(vicinity);
+                if (direction != Direction.Idle)
+                {
+                    ant.Rotation = direction;
+                }
+
+                switch (direction)
                 {
                     case Direction.Up:
                         if (EntityMap[center.X, center.Y - 1].Entity == null)

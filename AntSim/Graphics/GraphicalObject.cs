@@ -11,7 +11,7 @@ namespace AntSim.Graphics
 
         public (byte W, byte H) Size { get; }
 
-        public Direction Rotation { get; set; }
+        public Direction Rotation { get; set; } = Direction.Up;
 
         public GraphicalObject(Texture texture, byte width, byte height)
         {
@@ -27,7 +27,7 @@ namespace AntSim.Graphics
                 Scale = new Vector2f((float)cellSize * Size.W / Texture.Size.X, (float)cellSize * Size.H / Texture.Size.Y)
             };
 
-            sprite.Rotation = 0.25f * (float)rotation;
+            sprite.Rotation = -90f * (float)Rotation;
 
             win.Draw(sprite);
         }
