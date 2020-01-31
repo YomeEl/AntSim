@@ -2,7 +2,7 @@
 {
     enum Direction
     {
-        Forward, Left, Back, Right
+        Up, Left, Down, Right, Idle
     }
 
     enum AntType

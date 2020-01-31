@@ -1,5 +1,6 @@
 ﻿using AntSim.Graphics;
 using AntSim.Simulation.Map;
+using AntSim.Simulation.Items;
 
 using SFML.System;
 
@@ -15,23 +16,17 @@ namespace AntSim.Simulation.Ants
 
         public Vector2i Position { get; set; }
 
-        public float Health { get; }
-
-        public float Food { get; }
-
-        public float Speed { get; }
-
-        public float Age { get; private set; }
+        public IItem Item { get; protected set; }
 
         public Ant(int id, SFML.Graphics.Texture texture, byte width, byte height) : base(texture, width, height)
         {
-            Health = 1;
-            Food = 1;
-            Speed = 1;
-            Age = 1;
-
             Id = id;
             randomizer = new Random(id);
+        }
+
+        protected bool IsVicinityCorrect(Cell[,] vicinity, byte radius)
+        {
+            return vicinity.Length == radius * radius;
         }
 
         public abstract Direction Move(Cell[,] vicinity);

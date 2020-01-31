@@ -113,9 +113,10 @@ namespace AntSim.Simulation
                         vicinity[i + 1, j + 1] = EntityMap[center.X + i, center.Y + j];
                     }
                 }
-                switch (ant.Move(vicinity))
+
+                switch (ant.Rotation = ant.Move(vicinity))
                 {
-                    case Direction.Forward:
+                    case Direction.Up:
                         if (EntityMap[center.X, center.Y - 1].Entity == null)
                         {
                             EntityMap[center.X, center.Y - 1].Entity = ant;
@@ -131,7 +132,7 @@ namespace AntSim.Simulation
                             ant.Position += new Vector2i(1, 0);
                         }
                         break;
-                    case Direction.Back:
+                    case Direction.Down:
                         if (EntityMap[center.X, center.Y + 1].Entity == null)
                         {
                             EntityMap[center.X, center.Y + 1].Entity = ant;

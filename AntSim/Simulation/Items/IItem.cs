@@ -2,6 +2,6 @@
 {
     interface IItem
     {
-        byte Count { get; }
+        uint Count { get; }
     }
 }
