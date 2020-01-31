@@ -87,7 +87,7 @@
     <Compile Include="Simulation\Ants\Soldier.cs" />
     <Compile Include="Simulation\Ants\Worker.cs" />
     <Compile Include="Simulation\Ants\Enums.cs" />
-    <Compile Include="Simulation\EntityMapGenerator.cs" />
+    <Compile Include="Simulation\MapGenerator.cs" />
     <Compile Include="Simulation\Items\Food.cs" />
     <Compile Include="Simulation\Map\Cell.cs" />
     <Compile Include="Simulation\Map\Chunk.cs" />

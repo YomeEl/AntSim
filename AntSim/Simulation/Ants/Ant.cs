@@ -14,8 +14,6 @@ namespace AntSim.Simulation.Ants
 
         public int Id { get; set; }
 
-        public Vector2i Position { get; set; }
-
         public IItem Item { get; protected set; }
 
         public Ant(int id, SFML.Graphics.Texture texture, byte width, byte height) : base(texture, width, height)

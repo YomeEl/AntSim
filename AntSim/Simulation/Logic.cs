@@ -2,7 +2,9 @@
 using AntSim.Simulation.Ants;
 using AntSim.Simulation.Map;
 using AntSim.Simulation.Objects;
+
 using SFML.System;
+
 using System;
 using System.Collections.Generic;
 
@@ -11,15 +13,15 @@ namespace AntSim.Simulation
     class Logic
     {
         private readonly Engine engine;
-        private EntityMapGenerator generator;
-        public List<Ant> Ants { get; private set; }
-        public Field<Cell> EntityMap { get; private set; }
+        private MapGenerator generator;
+        public List<Ant> Ants { get; }
+        public Field<Cell> Map { get; }
 
         public Logic()
         {
             Ants = new List<Ant>();
-            generator = new EntityMapGenerator();
-            EntityMap = new Field<Cell>(generator);
+            generator = new MapGenerator();
+            Map = new Field<Cell>(generator);
             InitialChunkGeneration();
             engine = new Engine(800, 600);
         }
@@ -34,11 +36,11 @@ namespace AntSim.Simulation
                     var dist = Math.Sqrt(Math.Pow(i - from.X, 2) + Math.Pow(j - from.Y, 2));
                     if (dist <= radius)
                     {
-                        if (EntityMap[i, j].Smells.ContainsKey(code) &&
-                            EntityMap[i, j].Smells[code] < strength - (uint)dist ||
-                            !EntityMap[i, j].Smells.ContainsKey(code))
+                        if (Map[i, j].Smells.ContainsKey(code) &&
+                            Map[i, j].Smells[code] < strength - (uint)dist ||
+                            !Map[i, j].Smells.ContainsKey(code))
                         {
-                            EntityMap[i, j].Smells[code] = strength - (uint)dist;
+                            Map[i, j].Smells[code] = strength - (uint)dist;
                         }
                     }
                 }
@@ -55,7 +57,7 @@ namespace AntSim.Simulation
 
         public void SpawnHive(int x, int y, int radius)
         {
-            if (EntityMap[x, y].Entity != null) return;
+            if (Map[x, y].Entity != null) return;
 
             //var queen = AntsFactory.CreateQueen();
             //EntityMap[x, y].Entity = queen;
@@ -80,7 +82,7 @@ namespace AntSim.Simulation
                 {
                     Ants.Add(antsToSpawn[spawned]);
                     antsToSpawn[spawned].Position = new Vector2i(i, j);
-                    EntityMap[i++, j].Entity = antsToSpawn[spawned++];
+                    Map[i++, j].Entity = antsToSpawn[spawned++];
                 }
                 else
                 {
@@ -110,7 +112,7 @@ namespace AntSim.Simulation
                 {
                     for (int j = -1; j < 2; j++)
                     {
-                        vicinity[i + 1, j + 1] = EntityMap[center.X + i, center.Y + j];
+                        vicinity[i + 1, j + 1] = Map[center.X + i, center.Y + j];
                     }
                 }
 
@@ -123,34 +125,34 @@ namespace AntSim.Simulation
                 switch (direction)
                 {
                     case Direction.Up:
-                        if (EntityMap[center.X, center.Y - 1].Entity == null)
+                        if (Map[center.X, center.Y - 1].Entity == null)
                         {
-                            EntityMap[center.X, center.Y - 1].Entity = ant;
-                            EntityMap[center.X, center.Y].Entity = null;
+                            Map[center.X, center.Y - 1].Entity = ant;
+                            Map[center.X, center.Y].Entity = null;
                             ant.Position += new Vector2i(0, -1);
                         }
                         break;
                     case Direction.Right:
-                        if (EntityMap[center.X + 1, center.Y].Entity == null)
+                        if (Map[center.X + 1, center.Y].Entity == null)
                         {
-                            EntityMap[center.X + 1, center.Y].Entity = ant;
-                            EntityMap[center.X, center.Y].Entity = null;
+                            Map[center.X + 1, center.Y].Entity = ant;
+                            Map[center.X, center.Y].Entity = null;
                             ant.Position += new Vector2i(1, 0);
                         }
                         break;
                     case Direction.Down:
-                        if (EntityMap[center.X, center.Y + 1].Entity == null)
+                        if (Map[center.X, center.Y + 1].Entity == null)
                         {
-                            EntityMap[center.X, center.Y + 1].Entity = ant;
-                            EntityMap[center.X, center.Y].Entity = null;
+                            Map[center.X, center.Y + 1].Entity = ant;
+                            Map[center.X, center.Y].Entity = null;
                             ant.Position += new Vector2i(0, 1);
                         }
                         break;
                     case Direction.Left:
-                        if (EntityMap[center.X - 1, center.Y].Entity == null)
+                        if (Map[center.X - 1, center.Y].Entity == null)
                         {
-                            EntityMap[center.X - 1, center.Y].Entity = ant;
-                            EntityMap[center.X, center.Y].Entity = null;
+                            Map[center.X - 1, center.Y].Entity = ant;
+                            Map[center.X, center.Y].Entity = null;
                             ant.Position += new Vector2i(-1, 0);
                         }
                         break;
@@ -164,8 +166,16 @@ namespace AntSim.Simulation
 
             SpawnHive(0, 0, 3);
 
-            while (engine.Draw(EntityMap))
+            while (true)
             {
+                var drawArray = new GraphicalObject[Ants.Count + generator.FoodPiles.Count];
+                GraphicalObject[] antsArray = Ants.ToArray();
+                GraphicalObject[] foodPilesArray = generator.FoodPiles.ToArray();
+                antsArray.CopyTo(drawArray, 0);
+                foodPilesArray.CopyTo(drawArray, Ants.Count);
+
+                engine.Draw(drawArray);
+
                 if (tick % 10 == 0) Step();
                 tick++;
             };
@@ -177,7 +187,7 @@ namespace AntSim.Simulation
             {
                 for (int j = -10; j < 11; j++)
                 {
-                    EntityMap.GenerateChunk(new Vector2i(i, j));
+                    Map.GenerateChunk(new Vector2i(i, j));
                 }
             }
             SpreadFoodSmell();

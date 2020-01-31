@@ -83,7 +83,7 @@ namespace AntSim.Simulation.Map
 
                 if (targetChunk == null)
                 {
-                    return generator.DefaultValue;
+                    targetChunk = GenerateChunk(GetChunkCoords(x, y));
                 }
 
                 var targetCoords = GetLocalCoords(x, y);

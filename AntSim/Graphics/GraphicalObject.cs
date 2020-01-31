@@ -8,9 +8,8 @@ namespace AntSim.Graphics
     class GraphicalObject
     {
         public Texture Texture { get; }
-
         public (byte W, byte H) Size { get; }
-
+        public Vector2i Position { get; set; }
         public Direction Rotation { get; set; } = Direction.Up;
 
         public GraphicalObject(Texture texture, byte width, byte height)

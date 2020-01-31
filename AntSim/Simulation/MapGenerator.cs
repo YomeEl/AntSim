@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace AntSim.Simulation
 {
-    class EntityMapGenerator : IGenerator<Cell>
+    class MapGenerator : IGenerator<Cell>
     {
         private System.Random randomizer = new System.Random(32);
         public Cell DefaultValue { get; } = new Cell();
