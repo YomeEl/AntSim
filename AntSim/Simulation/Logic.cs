@@ -13,7 +13,7 @@ namespace AntSim.Simulation
     class Logic
     {
         private readonly Engine engine;
-        private MapGenerator generator;
+        private readonly MapGenerator generator;
         public List<Ant> Ants { get; }
         public Field<Cell> Map { get; }
 
@@ -187,7 +187,11 @@ namespace AntSim.Simulation
             {
                 for (int j = -10; j < 11; j++)
                 {
-                    Map.GenerateChunk(new Vector2i(i, j));
+                    var pos = new Vector2i(i, j);
+                    if (!Map.ChunkExists(pos))
+                    {
+                        Map.GenerateChunk(new Vector2i(i, j));
+                    }
                 }
             }
             SpreadFoodSmell();

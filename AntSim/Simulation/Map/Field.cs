@@ -20,6 +20,7 @@ namespace AntSim.Simulation.Map
 
             return targetChunk;
         }
+
         private Vector2i GetChunkCoords(int x, int y)
         {
             var targetChunkCoords = new Vector2i();
@@ -44,6 +45,7 @@ namespace AntSim.Simulation.Map
 
             return targetChunkCoords;
         }
+
         private Vector2i GetLocalCoords(int x, int y)
         {
             var targetCoords = new Vector2i();
@@ -110,6 +112,11 @@ namespace AntSim.Simulation.Map
             var newChunk = generator.GenerateChunk(coords);
             chunks[coords] = newChunk;
             return newChunk;
+        }
+
+        public bool ChunkExists(Vector2i coords)
+        {
+            return chunks[coords] != null;
         }
     }
 }
