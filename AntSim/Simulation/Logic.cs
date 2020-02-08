@@ -101,7 +101,7 @@ namespace AntSim.Simulation
                 switch (direction)
                 {
                     case Direction.Up:
-                        //if (Map[center.X, center.Y - 1].Entity == null)
+                        if (Map[center.X, center.Y - 1].Entity == null)
                         {
                             Map[center.X, center.Y - 1].Entity = ant;
                             Map[center.X, center.Y].Entity = null;
@@ -109,7 +109,7 @@ namespace AntSim.Simulation
                         }
                         break;
                     case Direction.Right:
-                        //if (Map[center.X + 1, center.Y].Entity == null)
+                        if (Map[center.X + 1, center.Y].Entity == null)
                         {
                             Map[center.X + 1, center.Y].Entity = ant;
                             Map[center.X, center.Y].Entity = null;
@@ -117,7 +117,7 @@ namespace AntSim.Simulation
                         }
                         break;
                     case Direction.Down:
-                        //if (Map[center.X, center.Y + 1].Entity == null)
+                        if (Map[center.X, center.Y + 1].Entity == null)
                         {
                             Map[center.X, center.Y + 1].Entity = ant;
                             Map[center.X, center.Y].Entity = null;
@@ -125,7 +125,7 @@ namespace AntSim.Simulation
                         }
                         break;
                     case Direction.Left:
-                        //if (Map[center.X - 1, center.Y].Entity == null)
+                        if (Map[center.X - 1, center.Y].Entity == null)
                         {
                             Map[center.X - 1, center.Y].Entity = ant;
                             Map[center.X, center.Y].Entity = null;
@@ -149,10 +149,13 @@ namespace AntSim.Simulation
                 GraphicalObject[] foodPilesArray = generator.FoodPiles.ToArray();
                 antsArray.CopyTo(drawArray, 0);
                 foodPilesArray.CopyTo(drawArray, Ants.Count);
-
                 engine.Draw(drawArray);
 
-                if (tick % 10 == 0) Step();
+                if (tick % 10 == 0)
+                {
+                    smellSystem.ProcessNewFoodPiles();
+                    Step();
+                }
                 tick++;
             };
         }

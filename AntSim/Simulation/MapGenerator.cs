@@ -30,7 +30,7 @@ namespace AntSim.Simulation
                         var foodPile = ObjectsFactory.CreateFoodPile();
                         chunk.Grid[i, j].Entity = foodPile;
                         foodPile.Position = new Vector2i(i, j) + position * size;
-                        SmellSystem.SpreadSmell(0, 100, foodPile.Position);
+                        SmellSystem.NewFoodPiles.Push(foodPile.Position);
                         FoodPiles.Add(foodPile);
                     }
                     else

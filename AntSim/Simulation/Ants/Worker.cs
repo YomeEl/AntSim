@@ -47,17 +47,17 @@ namespace AntSim.Simulation.Ants
                 Item = new Food(10);
                 var pile = (FoodPile)vicinity[foodPos.X, foodPos.Y].Entity;
                 pile.Count -= 10;
-                return Direction.Up;
+                movingDirection *= -1;
+                return Direction.Idle;
             }
 
-            Direction dir = Direction.Up;
+            Direction dir = Direction.Idle;
             uint maxIntesity = 0;
 
             if (vicinity[1, 0].Smells.ContainsKey(0) && vicinity[1, 0].Smells[0] > maxIntesity)
             {
                 dir = Direction.Up;
                 maxIntesity = vicinity[1, 0].Smells[0];
-
             }
             if (vicinity[0, 1].Smells.ContainsKey(0) && vicinity[0, 1].Smells[0] > maxIntesity)
             {
@@ -97,7 +97,43 @@ namespace AntSim.Simulation.Ants
 
         private Direction BringFoodHome(Cell[,] vicinity)
         {
-            return Direction.Up;
+            Direction dir = Direction.Idle;
+            uint maxIntesity = 0;
+
+            if (vicinity[1, 0].Smells.ContainsKey(FactionId) && vicinity[1, 0].Smells[FactionId] > maxIntesity)
+            {
+                dir = Direction.Up;
+                maxIntesity = vicinity[1, 0].Smells[FactionId];
+            }
+            if (vicinity[0, 1].Smells.ContainsKey(FactionId) && vicinity[0, 1].Smells[FactionId] > maxIntesity)
+            {
+                dir = Direction.Left;
+                maxIntesity = vicinity[0, 1].Smells[FactionId];
+            }
+            if (vicinity[2, 1].Smells.ContainsKey(FactionId) && vicinity[2, 1].Smells[FactionId] > maxIntesity)
+            {
+                dir = Direction.Right;
+                maxIntesity = vicinity[2, 1].Smells[FactionId];
+            }
+            if (vicinity[1, 2].Smells.ContainsKey(FactionId) && vicinity[1, 2].Smells[FactionId] > maxIntesity)
+            {
+                dir = Direction.Down;
+                maxIntesity = vicinity[1, 2].Smells[FactionId];
+            }
+
+            if (maxIntesity == 0)
+            {
+                if (randomizer.Next(0, Math.Abs(movingDirection.X) + Math.Abs(movingDirection.Y)) < Math.Abs(movingDirection.X))
+                {
+                    return movingDirection.X < 0 ? Direction.Left : Direction.Right;
+                }
+                else
+                {
+                    return movingDirection.Y < 0 ? Direction.Down : Direction.Up;
+                }
+            }
+
+            return dir;
         }
 
         public override Direction Move(Cell[,] vicinity)
