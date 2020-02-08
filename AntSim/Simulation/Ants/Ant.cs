@@ -23,9 +23,9 @@ namespace AntSim.Simulation.Ants
             randomizer = new Random((int)antId);
         }
 
-        protected bool IsVicinityCorrect(Cell[,] vicinity, byte radius)
+        protected bool IsVicinityCorrect(Cell[,] vicinity, byte diameter)
         {
-            return vicinity.Length == radius * radius;
+            return vicinity.Length == diameter * diameter && vicinity[diameter / 2, diameter / 2].Entity == this;
         }
 
         public abstract Direction Move(Cell[,] vicinity);

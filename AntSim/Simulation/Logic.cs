@@ -34,9 +34,10 @@ namespace AntSim.Simulation
         {
             if (Map[x, y].Entity != null) return;
 
-            //var queen = AntsFactory.CreateQueen();
-            //EntityMap[x, y].Entity = queen;
-            //Ants.Add(queen);
+            var queen = AntsFactory.CreateQueen();
+            Map[x, y].Entity = queen;
+            Ants.Add(queen);
+            smellSystem.SpreadSmell(queen.FactionId, 100, queen.Position);
 
             const uint babysittersCount = 0;
             const uint soldiersCount = 0;
@@ -100,7 +101,7 @@ namespace AntSim.Simulation
                 switch (direction)
                 {
                     case Direction.Up:
-                        if (Map[center.X, center.Y - 1].Entity == null)
+                        //if (Map[center.X, center.Y - 1].Entity == null)
                         {
                             Map[center.X, center.Y - 1].Entity = ant;
                             Map[center.X, center.Y].Entity = null;
@@ -108,7 +109,7 @@ namespace AntSim.Simulation
                         }
                         break;
                     case Direction.Right:
-                        if (Map[center.X + 1, center.Y].Entity == null)
+                        //if (Map[center.X + 1, center.Y].Entity == null)
                         {
                             Map[center.X + 1, center.Y].Entity = ant;
                             Map[center.X, center.Y].Entity = null;
@@ -116,7 +117,7 @@ namespace AntSim.Simulation
                         }
                         break;
                     case Direction.Down:
-                        if (Map[center.X, center.Y + 1].Entity == null)
+                        //if (Map[center.X, center.Y + 1].Entity == null)
                         {
                             Map[center.X, center.Y + 1].Entity = ant;
                             Map[center.X, center.Y].Entity = null;
@@ -124,7 +125,7 @@ namespace AntSim.Simulation
                         }
                         break;
                     case Direction.Left:
-                        if (Map[center.X - 1, center.Y].Entity == null)
+                        //if (Map[center.X - 1, center.Y].Entity == null)
                         {
                             Map[center.X - 1, center.Y].Entity = ant;
                             Map[center.X, center.Y].Entity = null;

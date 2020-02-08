@@ -12,7 +12,7 @@ namespace AntSim.Simulation.Ants
 
         public override Direction Move(Cell[,] vicinity)
         {
-            throw new NotImplementedException();
+            return Direction.Idle;
         }
     }
 }

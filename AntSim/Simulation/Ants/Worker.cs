@@ -4,13 +4,25 @@ using AntSim.Simulation.Items;
 
 using SFML.System;
 
+using System;
+
 namespace AntSim.Simulation.Ants
 {
     class Worker : Ant
     {
+        private Vector2i movingDirection = new Vector2i(0, 0);
+
         public Worker(uint antId, uint factionId, SFML.Graphics.Texture texture, byte width, byte height) : 
             base(antId, factionId, texture, width, height)
         {
+        }
+
+        private Vector2i PickRandomVector2i()
+        {
+            var x = (int)(randomizer.NextDouble() * 8 - 4);
+            var y = (int)(randomizer.NextDouble() * 8 - 4);
+
+            return new Vector2i(x, y);
         }
 
         private Direction FindFood(Cell[,] vicinity)
@@ -35,7 +47,7 @@ namespace AntSim.Simulation.Ants
                 Item = new Food(10);
                 var pile = (FoodPile)vicinity[foodPos.X, foodPos.Y].Entity;
                 pile.Count -= 10;
-                return Direction.Idle;
+                return Direction.Up;
             }
 
             Direction dir = Direction.Up;
@@ -65,7 +77,19 @@ namespace AntSim.Simulation.Ants
 
             if (maxIntesity == 0)
             {
-                dir = (Direction)randomizer.Next(0, 3);
+                if (movingDirection.X == 0 && movingDirection.Y == 0)
+                {
+                    movingDirection = PickRandomVector2i();
+                }
+
+                if (randomizer.Next(0, Math.Abs(movingDirection.X) + Math.Abs(movingDirection.Y)) < Math.Abs(movingDirection.X))
+                {
+                    return movingDirection.X < 0 ? Direction.Left : Direction.Right;
+                }
+                else
+                {
+                    return movingDirection.Y < 0 ? Direction.Down : Direction.Up;
+                }
             }
 
             return dir;
@@ -94,7 +118,7 @@ namespace AntSim.Simulation.Ants
             }
             else
             {
-                throw new System.Exception("Wrong vicinity size!");
+                return Direction.Idle;
             }
         }
     }
