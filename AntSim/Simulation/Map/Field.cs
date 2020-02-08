@@ -116,7 +116,7 @@ namespace AntSim.Simulation.Map
 
         public bool ChunkExists(Vector2i coords)
         {
-            return chunks[coords] != null;
+            return chunks.ContainsKey(coords) && chunks[coords] != null;
         }
     }
 }
