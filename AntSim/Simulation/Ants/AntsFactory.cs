@@ -4,25 +4,27 @@ namespace AntSim.Simulation.Ants
 {
     static class AntsFactory
     {
-        private static Texture queenTexture = new Texture("Splines/queen.png");
-        private static Texture babysitterTexture = new Texture("Splines/babysitter.png");
-        private static Texture soldierTexture = new Texture("Splines/soldier.png");
-        private static Texture workerTexture = new Texture("Splines/worker.png");
+        private static readonly Texture queenTexture = new Texture("Splines/queen.png");
+        private static readonly Texture babysitterTexture = new Texture("Splines/babysitter.png");
+        private static readonly Texture soldierTexture = new Texture("Splines/soldier.png");
+        private static readonly Texture workerTexture = new Texture("Splines/worker.png");
 
-        private static int nextAntId = 0;
+        private static uint currentAntId = 0;
+
+        public static uint CurrentFactionId = 0;
 
         public static Baby CreateBaby(AntType type)
         {
             switch (type)
             {
                 case AntType.Babysitter:
-                    return new Baby(AntType.Babysitter, nextAntId++, babysitterTexture, 1, 1);
+                    return new Baby(AntType.Babysitter, currentAntId++, CurrentFactionId, babysitterTexture, 1, 1);
 
                 case AntType.Soldier:
-                    return new Baby(AntType.Soldier, nextAntId++, soldierTexture, 1, 1);
+                    return new Baby(AntType.Soldier, currentAntId++, CurrentFactionId, soldierTexture, 1, 1);
 
                 case AntType.Worker:
-                    return new Baby(AntType.Worker, nextAntId++, workerTexture, 1, 1);
+                    return new Baby(AntType.Worker, currentAntId++, CurrentFactionId, workerTexture, 1, 1);
 
                 default:
                     throw new System.Exception("Unable to create baby of this type");
@@ -31,22 +33,22 @@ namespace AntSim.Simulation.Ants
 
         public static Babysitter CreateBabysitter()
         {
-            return new Babysitter(nextAntId++, babysitterTexture, 2, 2);
+            return new Babysitter(currentAntId++, CurrentFactionId, babysitterTexture, 2, 2);
         }
 
         public static Queen CreateQueen()
         {
-            return new Queen(nextAntId++, queenTexture, 4, 4);
+            return new Queen(currentAntId++, CurrentFactionId, queenTexture, 4, 4);
         }
 
         public static Soldier CreateSoldier()
         {
-            return new Soldier(nextAntId++, soldierTexture, 2, 2);
+            return new Soldier(currentAntId++, CurrentFactionId, soldierTexture, 2, 2);
         }
 
         public static Worker CreateWorker()
         {
-            return new Worker(nextAntId++, workerTexture, 2, 2);
+            return new Worker(currentAntId++, CurrentFactionId, workerTexture, 2, 2);
         }
     }
 }

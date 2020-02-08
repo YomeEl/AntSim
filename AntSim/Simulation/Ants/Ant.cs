@@ -2,8 +2,6 @@
 using AntSim.Simulation.Map;
 using AntSim.Simulation.Items;
 
-using SFML.System;
-
 using System;
 
 namespace AntSim.Simulation.Ants
@@ -12,14 +10,17 @@ namespace AntSim.Simulation.Ants
     {
         protected Random randomizer;
 
-        public int Id { get; set; }
+        public uint AntId { get; }
+
+        public uint FactionId { get; }
 
         public IItem Item { get; protected set; }
 
-        public Ant(int id, SFML.Graphics.Texture texture, byte width, byte height) : base(texture, width, height)
+        public Ant(uint antId, uint factionId, SFML.Graphics.Texture texture, byte width, byte height) : base(texture, width, height)
         {
-            Id = id;
-            randomizer = new Random(id);
+            AntId = antId;
+            FactionId = factionId;
+            randomizer = new Random((int)antId);
         }
 
         protected bool IsVicinityCorrect(Cell[,] vicinity, byte radius)
