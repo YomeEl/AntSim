@@ -96,7 +96,7 @@ namespace AntSim.Simulation
                 }
                 if (j > y + radius)
                 {
-                    throw new System.Exception("Not enough place to spawn hive");
+                    throw new Exception("Not enough place to spawn hive");
                 }
             }
         }
