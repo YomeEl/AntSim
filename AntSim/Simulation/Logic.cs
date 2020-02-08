@@ -14,6 +14,7 @@ namespace AntSim.Simulation
     {
         private readonly Engine engine;
         private readonly MapGenerator generator;
+        private readonly SmellSystem smellSystem;
         public List<Ant> Ants { get; }
         public Field<Cell> Map { get; }
 
@@ -22,37 +23,11 @@ namespace AntSim.Simulation
             Ants = new List<Ant>();
             generator = new MapGenerator();
             Map = new Field<Cell>(generator);
-            InitialChunkGeneration();
+            smellSystem = new SmellSystem(Map);
+            generator.SmellSystem = smellSystem;
             engine = new Engine(800, 600);
-        }
 
-        private void SpreadSmell(byte code, uint strength, Vector2i from)
-        {
-            int radius = (int)strength;
-            for (int i = from.X - radius; i < from.X + radius; i++)
-            {
-                for (int j = from.Y - radius; j < from.Y + radius; j++)
-                {
-                    var dist = Math.Sqrt(Math.Pow(i - from.X, 2) + Math.Pow(j - from.Y, 2));
-                    if (dist <= radius)
-                    {
-                        if (Map[i, j].Smells.ContainsKey(code) &&
-                            Map[i, j].Smells[code] < strength - (uint)dist ||
-                            !Map[i, j].Smells.ContainsKey(code))
-                        {
-                            Map[i, j].Smells[code] = strength - (uint)dist;
-                        }
-                    }
-                }
-            }
-        }
-
-        private void SpreadFoodSmell()
-        {
-            foreach (FoodPile foodPile in generator.FoodPiles)
-            {
-                SpreadSmell(0, 25, foodPile.Position);
-            }
+            InitialChunkGeneration();
         }
 
         public void SpawnHive(int x, int y, int radius)
@@ -194,7 +169,6 @@ namespace AntSim.Simulation
                     }
                 }
             }
-            SpreadFoodSmell();
         }
     }
 }
