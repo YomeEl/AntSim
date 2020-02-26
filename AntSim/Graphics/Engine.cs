@@ -11,7 +11,7 @@ namespace AntSim.Graphics
         private byte cellSize;
         private Vector2i previousMousePosition;
 
-        public Camera Camera { get; }
+        private Vector2f cameraPosition;
 
         public Engine(uint width, uint height)
         {
@@ -21,8 +21,6 @@ namespace AntSim.Graphics
             BindEvents(win);
 
             cellSize = 30;
-
-            Camera = new Camera();
         }
 
         private void ChangeCellSize(float amount)
@@ -31,7 +29,7 @@ namespace AntSim.Graphics
             newCellSize += amount;
             if (newCellSize < 2) newCellSize = 2;
             if (newCellSize > 100) newCellSize = 100;
-            Camera.Position *= newCellSize / cellSize;
+            cameraPosition *= newCellSize / cellSize;
             cellSize = (byte)newCellSize;
         }
 
@@ -51,14 +49,14 @@ namespace AntSim.Graphics
             win.MouseWheelScrolled += Win_MouseWheelScrolled;
         }
 
-        private void RecalculateCameraParameters()
+        private void ProcessCameraEvents()
         {
             float speed = Keyboard.IsKeyPressed(Keyboard.Key.LShift) ? 15 : 5;
 
-            if (Keyboard.IsKeyPressed(Keyboard.Key.W)) Camera.Position.Y -= speed;
-            if (Keyboard.IsKeyPressed(Keyboard.Key.A)) Camera.Position.X -= speed;
-            if (Keyboard.IsKeyPressed(Keyboard.Key.S)) Camera.Position.Y += speed;
-            if (Keyboard.IsKeyPressed(Keyboard.Key.D)) Camera.Position.X += speed;
+            if (Keyboard.IsKeyPressed(Keyboard.Key.W)) cameraPosition.Y -= speed;
+            if (Keyboard.IsKeyPressed(Keyboard.Key.A)) cameraPosition.X -= speed;
+            if (Keyboard.IsKeyPressed(Keyboard.Key.S)) cameraPosition.Y += speed;
+            if (Keyboard.IsKeyPressed(Keyboard.Key.D)) cameraPosition.X += speed;
 
             if (Keyboard.IsKeyPressed(Keyboard.Key.Add) && cellSize < 100) ChangeCellSize(1);
             if (Keyboard.IsKeyPressed(Keyboard.Key.Subtract) && cellSize > 2) ChangeCellSize(-1);
@@ -66,27 +64,27 @@ namespace AntSim.Graphics
             var currentMousePosition = Mouse.GetPosition();
             if (Mouse.IsButtonPressed(Mouse.Button.Left))
             {
-                Camera.Position.X += previousMousePosition.X - currentMousePosition.X;
-                Camera.Position.Y += previousMousePosition.Y - currentMousePosition.Y;
+                cameraPosition.X += previousMousePosition.X - currentMousePosition.X;
+                cameraPosition.Y += previousMousePosition.Y - currentMousePosition.Y;
             }
             previousMousePosition = currentMousePosition;
         }
 
         public bool Draw(GraphicalObject[] objects)
         {
-            RecalculateCameraParameters();
+            ProcessCameraEvents();
 
             win.Clear(Color.White);
 
             byte maxAntSize = 4;
 
-            float trueLeft = Camera.Position.X - win.Size.X / 2;
-            float trueTop = Camera.Position.Y - win.Size.Y / 2;
+            float trueLeft = cameraPosition.X - win.Size.X / 2;
+            float trueTop = cameraPosition.Y - win.Size.Y / 2;
             int left = (int)(trueLeft / cellSize);
             int top = (int)(trueTop / cellSize);
             int width = (int)win.Size.X / cellSize + 1;
             int height = (int)win.Size.Y / cellSize + 1;
-            (int X, int Y) offset = ((int)Camera.Position.X, (int)Camera.Position.Y);
+            (int X, int Y) offset = ((int)cameraPosition.X, (int)cameraPosition.Y);
 
             foreach (GraphicalObject obj in objects)
             {
@@ -107,13 +105,13 @@ namespace AntSim.Graphics
 
         public void DrawSmells(Field<Cell> map)
         {
-            float trueLeft = Camera.Position.X - win.Size.X / 2;
-            float trueTop = Camera.Position.Y - win.Size.Y / 2;
+            float trueLeft = cameraPosition.X - win.Size.X / 2;
+            float trueTop = cameraPosition.Y - win.Size.Y / 2;
             int left = (int)(trueLeft / cellSize);
             int top = (int)(trueTop / cellSize);
             int width = (int)win.Size.X / cellSize + 1;
             int height = (int)win.Size.Y / cellSize + 1;
-            (int X, int Y) offset = ((int)Camera.Position.X, (int)Camera.Position.Y);
+            (int X, int Y) offset = ((int)cameraPosition.X, (int)cameraPosition.Y);
 
             var shape = new RectangleShape(new Vector2f(cellSize, cellSize));
             shape.FillColor = Color.Red;
@@ -121,7 +119,7 @@ namespace AntSim.Graphics
             {
                 for (int j = top; j < top + height; j++)
                 {
-                    if (map[i, j].Smells.ContainsKey(0))
+                    if (map[i, j].Smells.ContainsKey(Simulation.SmellSystem.FOOD_ID))
                     {
                         shape.Position = new Vector2f((i - left) * cellSize, (j - top) * cellSize);
                         win.Draw(shape);

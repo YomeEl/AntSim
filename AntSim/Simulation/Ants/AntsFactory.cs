@@ -11,7 +11,7 @@ namespace AntSim.Simulation.Ants
 
         private static uint currentAntId = 0;
 
-        public static uint CurrentFactionId = 1;
+        public static uint CurrentFactionId = 0;
 
         public static Baby CreateBaby(AntType type)
         {

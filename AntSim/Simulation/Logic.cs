@@ -37,7 +37,7 @@ namespace AntSim.Simulation
             var queen = AntsFactory.CreateQueen();
             Map[x, y].Entity = queen;
             Ants.Add(queen);
-            smellSystem.SpreadSmell(queen.FactionId, 100, queen.Position);
+            smellSystem.SpreadSmell(queen.FactionId + SmellSystem.FACTION_ID_OFFSET, 100, queen.Position);
 
             const uint babysittersCount = 0;
             const uint soldiersCount = 0;
@@ -105,6 +105,7 @@ namespace AntSim.Simulation
                         {
                             Map[center.X, center.Y - 1].Entity = ant;
                             Map[center.X, center.Y].Entity = null;
+                            Map[ant.Position.X, ant.Position.Y].Smells[ant.FactionId + SmellSystem.FACTION_ID_OFFSET] += 100;
                             ant.Position += new Vector2i(0, -1);
                         }
                         break;

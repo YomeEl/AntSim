@@ -25,6 +25,35 @@ namespace AntSim.Simulation.Ants
             return new Vector2i(x, y);
         }
 
+        private Direction FindMaxIntensityDirection(Cell[,] vicinity, uint smellId)
+        {
+            Direction dir = Direction.Idle;
+            uint maxIntesity = 0;
+
+            if (vicinity[1, 0].Smells.ContainsKey(smellId) && vicinity[1, 0].Smells[smellId] > maxIntesity)
+            {
+                dir = Direction.Up;
+                maxIntesity = vicinity[1, 0].Smells[smellId];
+            }
+            if (vicinity[0, 1].Smells.ContainsKey(smellId) && vicinity[0, 1].Smells[smellId] > maxIntesity)
+            {
+                dir = Direction.Left;
+                maxIntesity = vicinity[0, 1].Smells[smellId];
+            }
+            if (vicinity[2, 1].Smells.ContainsKey(smellId) && vicinity[2, 1].Smells[smellId] > maxIntesity)
+            {
+                dir = Direction.Right;
+                maxIntesity = vicinity[2, 1].Smells[smellId];
+            }
+            if (vicinity[1, 2].Smells.ContainsKey(smellId) && vicinity[1, 2].Smells[smellId] > maxIntesity)
+            {
+                dir = Direction.Down;
+                maxIntesity = vicinity[1, 2].Smells[smellId];
+            }
+
+            return maxIntesity == 0 ? Direction.Idle : dir;
+        }
+
         private Direction FindFood(Cell[,] vicinity)
         {
             bool found = false;
@@ -51,31 +80,9 @@ namespace AntSim.Simulation.Ants
                 return Direction.Idle;
             }
 
-            Direction dir = Direction.Idle;
-            uint maxIntesity = 0;
+            Direction dir = FindMaxIntensityDirection(vicinity, SmellSystem.FOOD_ID);
 
-            if (vicinity[1, 0].Smells.ContainsKey(0) && vicinity[1, 0].Smells[0] > maxIntesity)
-            {
-                dir = Direction.Up;
-                maxIntesity = vicinity[1, 0].Smells[0];
-            }
-            if (vicinity[0, 1].Smells.ContainsKey(0) && vicinity[0, 1].Smells[0] > maxIntesity)
-            {
-                dir = Direction.Left;
-                maxIntesity = vicinity[0, 1].Smells[0];
-            }
-            if (vicinity[2, 1].Smells.ContainsKey(0) && vicinity[2, 1].Smells[0] > maxIntesity)
-            {
-                dir = Direction.Right;
-                maxIntesity = vicinity[2, 1].Smells[0];
-            }
-            if (vicinity[1, 2].Smells.ContainsKey(0) && vicinity[1, 2].Smells[0] > maxIntesity)
-            {
-                dir = Direction.Down;
-                maxIntesity = vicinity[1, 2].Smells[0];
-            }
-
-            if (maxIntesity == 0)
+            if (dir == Direction.Idle)
             {
                 if (movingDirection.X == 0 && movingDirection.Y == 0)
                 {
@@ -97,31 +104,33 @@ namespace AntSim.Simulation.Ants
 
         private Direction BringFoodHome(Cell[,] vicinity)
         {
-            Direction dir = Direction.Idle;
-            uint maxIntesity = 0;
+            bool found = false;
+            Vector2i queenPos = new Vector2i(0, 0);
 
-            if (vicinity[1, 0].Smells.ContainsKey(FactionId) && vicinity[1, 0].Smells[FactionId] > maxIntesity)
+            for (int i = 0; i < 3; i++)
             {
-                dir = Direction.Up;
-                maxIntesity = vicinity[1, 0].Smells[FactionId];
-            }
-            if (vicinity[0, 1].Smells.ContainsKey(FactionId) && vicinity[0, 1].Smells[FactionId] > maxIntesity)
-            {
-                dir = Direction.Left;
-                maxIntesity = vicinity[0, 1].Smells[FactionId];
-            }
-            if (vicinity[2, 1].Smells.ContainsKey(FactionId) && vicinity[2, 1].Smells[FactionId] > maxIntesity)
-            {
-                dir = Direction.Right;
-                maxIntesity = vicinity[2, 1].Smells[FactionId];
-            }
-            if (vicinity[1, 2].Smells.ContainsKey(FactionId) && vicinity[1, 2].Smells[FactionId] > maxIntesity)
-            {
-                dir = Direction.Down;
-                maxIntesity = vicinity[1, 2].Smells[FactionId];
+                for (int j = 0; j < 3; j++)
+                {
+                    if (vicinity[i, j].Entity is Queen)
+                    {
+                        found = true;
+                        queenPos = new Vector2i(i, j);
+                    }
+                }
             }
 
-            if (maxIntesity == 0)
+            if (found)
+            {
+                var queen = (Queen)vicinity[queenPos.X, queenPos.Y].Entity;
+                queen.FoodStock += Item.Count;
+                Item = null;
+                movingDirection = new Vector2i(0, 0);
+                return Direction.Idle;
+            }
+
+            Direction dir = FindMaxIntensityDirection(vicinity, FactionId + SmellSystem.FACTION_ID_OFFSET);
+
+            if (dir == Direction.Idle)
             {
                 if (randomizer.Next(0, Math.Abs(movingDirection.X) + Math.Abs(movingDirection.Y)) < Math.Abs(movingDirection.X))
                 {

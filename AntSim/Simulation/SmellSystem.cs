@@ -9,6 +9,10 @@ namespace AntSim.Simulation
 {
     class SmellSystem
     {
+        public const uint FOOD_ID = 0;
+        public const uint FACTION_ID_OFFSET = 0x10000000u;
+        public const uint ANT_ID_OFFSET = 0x20000000u;
+
         private readonly Field<Cell> map;
 
         public Stack<Vector2i> NewFoodPiles { get; }
@@ -46,7 +50,7 @@ namespace AntSim.Simulation
         {
             while (NewFoodPiles.Count > 0)
             {
-                SpreadSmell(0, 100, NewFoodPiles.Pop());
+                SpreadSmell(FOOD_ID, 100, NewFoodPiles.Pop());
             }
         }
     }
