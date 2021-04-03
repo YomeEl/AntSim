@@ -6,8 +6,8 @@ namespace AntSim
     {
         static void Main(string[] args)
         {
-            Logic l = new Logic();
-            l.Debug();
+            Logic logic = new Logic();
+            logic.RunSimulation();
         }
     }
 }

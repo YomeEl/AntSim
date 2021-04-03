@@ -10,7 +10,7 @@ namespace AntSim.Simulation.Ants
         {
         }
 
-        public override Direction Move(Cell[,] vicinity)
+        public override void Step(float dt)
         {
             throw new NotImplementedException();
         }

@@ -102,30 +102,5 @@ namespace AntSim.Graphics
 
             return win.IsOpen;
         }
-
-        public void DrawSmells(Field<Cell> map)
-        {
-            float trueLeft = cameraPosition.X - win.Size.X / 2;
-            float trueTop = cameraPosition.Y - win.Size.Y / 2;
-            int left = (int)(trueLeft / cellSize);
-            int top = (int)(trueTop / cellSize);
-            int width = (int)win.Size.X / cellSize + 1;
-            int height = (int)win.Size.Y / cellSize + 1;
-            (int X, int Y) offset = ((int)cameraPosition.X, (int)cameraPosition.Y);
-
-            var shape = new RectangleShape(new Vector2f(cellSize, cellSize));
-            shape.FillColor = Color.Red;
-            for (int i = left; i < left + width; i++)
-            {
-                for (int j = top; j < top + height; j++)
-                {
-                    if (map[i, j].Smells.ContainsKey(Simulation.SmellSystem.FOOD_ID))
-                    {
-                        shape.Position = new Vector2f((i - left) * cellSize, (j - top) * cellSize);
-                        win.Draw(shape);
-                    }
-                }
-            }
-        }
     }
 }

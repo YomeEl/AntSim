@@ -10,10 +10,9 @@ namespace AntSim.Simulation
 {
     class MapGenerator : IGenerator<Cell>
     {
-        private readonly Random randomizer = new System.Random(32);
+        private readonly Random randomizer = new Random(32);
         public Cell DefaultValue { get; } = new Cell();
         public List<FoodPile> FoodPiles { get; } = new List<FoodPile>();
-        public SmellSystem SmellSystem { get; set; }
 
         public Chunk<Cell> GenerateChunk(Vector2i position)
         {
@@ -30,7 +29,6 @@ namespace AntSim.Simulation
                         var foodPile = ObjectsFactory.CreateFoodPile();
                         chunk.Grid[i, j].Entity = foodPile;
                         foodPile.Position = new Vector2i(i, j) + position * size;
-                        SmellSystem.NewFoodPiles.Push(foodPile.Position);
                         FoodPiles.Add(foodPile);
                     }
                     else
