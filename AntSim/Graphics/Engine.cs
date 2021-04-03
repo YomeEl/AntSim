@@ -91,8 +91,20 @@ namespace AntSim.Graphics
                 if (obj.Position.X >= left - maxAntSize && obj.Position.X <= left + width &&
                     obj.Position.Y >= top - maxAntSize && obj.Position.Y <= top + height)
                 {
-                    var pos = new Vector2i(obj.Position.X * cellSize - offset.X + (int)win.Size.X / 2, obj.Position.Y * cellSize - offset.Y + (int)win.Size.Y / 2);
-                    obj.Draw(win, pos, cellSize);
+                    var pos = new Vector2f
+                    (
+                        obj.Position.X * cellSize - offset.X + (int)win.Size.X / 2, 
+                        obj.Position.Y * cellSize - offset.Y + (int)win.Size.Y / 2
+                    );
+                    var sprite = new Sprite(obj.Texture);
+                    sprite.Scale = new Vector2f(
+                        (float)cellSize * obj.Size.W / obj.Texture.Size.X, 
+                        (float)cellSize * obj.Size.H / obj.Texture.Size.Y
+                    );
+                    sprite.Rotation = obj.Rotation;
+                    sprite.Position = pos;
+
+                    win.Draw(sprite);               
                 }
             }
 

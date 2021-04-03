@@ -28,7 +28,9 @@ namespace AntSim.Simulation
                     {
                         var foodPile = ObjectsFactory.CreateFoodPile();
                         chunk.Grid[i, j].Entity = foodPile;
-                        foodPile.Position = new Vector2i(i, j) + position * size;
+                        float posX = i + position.X * size;
+                        float posY = j + position.Y * size;
+                        foodPile.Position = new Vector2f(posX, posY);
                         FoodPiles.Add(foodPile);
                     }
                     else
