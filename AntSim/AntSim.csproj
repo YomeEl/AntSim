@@ -52,17 +52,21 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="sfml-audio">
-      <HintPath>..\..\SFML_Raycasting\SFML_Raycasting\bin\Debug\Dll\sfml-audio.dll</HintPath>
+    <Reference Include="sfml-audio, Version=2.4.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>SFML\sfml-audio.dll</HintPath>
     </Reference>
-    <Reference Include="sfml-graphics">
-      <HintPath>..\..\SFML_Raycasting\SFML_Raycasting\bin\Debug\Dll\sfml-graphics.dll</HintPath>
+    <Reference Include="sfml-graphics, Version=2.4.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>SFML\sfml-graphics.dll</HintPath>
     </Reference>
-    <Reference Include="sfml-system">
-      <HintPath>..\..\SFML_Raycasting\SFML_Raycasting\bin\Debug\Dll\sfml-system.dll</HintPath>
+    <Reference Include="sfml-system, Version=2.4.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>SFML\sfml-system.dll</HintPath>
     </Reference>
-    <Reference Include="sfml-window">
-      <HintPath>..\..\SFML_Raycasting\SFML_Raycasting\bin\Debug\Dll\sfml-window.dll</HintPath>
+    <Reference Include="sfml-window, Version=2.4.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>SFML\sfml-window.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
