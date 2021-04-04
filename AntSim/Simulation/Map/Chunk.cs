@@ -2,7 +2,7 @@
 {
     class Chunk<T>
     {
-        public const byte SIZE = 16;
+        public const byte SIZE = 100;
 
         public Chunk()
         {
