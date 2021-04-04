@@ -20,8 +20,8 @@ namespace AntSim.Simulation
         public Logic()
         {
             Colonies = new List<Colony>();
-            Smells = new Field<Cell>(new MapGenerator());
             engine = new Engine(800, 600);
+            Smells = new Field<Cell>(new MapGenerator(engine));
         }
 
         public void RunSimulation()
@@ -46,6 +46,17 @@ namespace AntSim.Simulation
         private void InitializeColonies()
         {
             var colonyPosition = new Vector2f(0, 0);
+
+            int intCPosX = (int)colonyPosition.X;
+            int intCposY = (int)colonyPosition.Y; 
+            var chunkSize = Chunk<Cell>.SIZE;
+
+            //Generate four chunks around colony;
+            Smells[intCPosX, intCposY].Item = null;
+            Smells[intCPosX - chunkSize, intCposY].Item = null;
+            Smells[intCPosX, intCposY - chunkSize].Item = null;
+            Smells[intCPosX - chunkSize, intCposY - chunkSize].Item = null;
+
             var queen = AntsFactory.CreateQueen();
             queen.Position = colonyPosition;
             engine.Register(queen);
