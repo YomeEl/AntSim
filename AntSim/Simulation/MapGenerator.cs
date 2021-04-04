@@ -10,9 +10,20 @@ namespace AntSim.Simulation
 {
     class MapGenerator : IGenerator<Cell>
     {
-        private readonly Random randomizer = new Random(32);
-        public Cell DefaultValue { get; } = new Cell();
-        public List<FoodPile> FoodPiles { get; } = new List<FoodPile>();
+        public Cell DefaultValue { get; }
+        public List<FoodPile> FoodPiles { get; }
+
+        private readonly Random randomizer;
+        private readonly Graphics.Engine engine;
+
+        public MapGenerator(Graphics.Engine engine)
+        {
+            DefaultValue = new Cell();
+            FoodPiles = new List<FoodPile>();
+
+            randomizer = new Random(32);
+            this.engine = engine;
+        }
 
         public Chunk<Cell> GenerateChunk(Vector2i position)
         {
@@ -31,11 +42,7 @@ namespace AntSim.Simulation
                         float posX = i + position.X * size;
                         float posY = j + position.Y * size;
                         foodPile.Position = new Vector2f(posX, posY);
-                        FoodPiles.Add(foodPile);
-                    }
-                    else
-                    {
-                        chunk.Grid[i, j].Item = null;
+                        engine.Register(foodPile);
                     }
                 }
             }
