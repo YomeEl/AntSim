@@ -8,6 +8,8 @@ namespace AntSim.Graphics
 {
     class Engine
     {
+        public bool Active { get; private set; }
+
         private readonly RenderWindow win;
         private byte cellSize;
         private Vector2i previousMousePosition;
@@ -17,6 +19,8 @@ namespace AntSim.Graphics
 
         public Engine(uint width, uint height)
         {
+            Active = true;
+
             objects = new SortedSet<GraphicalObject>();
 
             win = new RenderWindow(new VideoMode(width, height), "Ant simulation");
@@ -44,6 +48,8 @@ namespace AntSim.Graphics
 
         private void Win_Closed(object sender, System.EventArgs e)
         {
+            Active = false;
+
             win.Close();
         }
 

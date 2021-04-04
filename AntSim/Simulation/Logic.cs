@@ -29,7 +29,7 @@ namespace AntSim.Simulation
             InitializeColonies();
 
             float deltaTime = 1f;
-            while (true)
+            while (engine.Active)
             {
                 foreach (Colony colony in Colonies)
                 {
