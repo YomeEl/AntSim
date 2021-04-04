@@ -99,8 +99,10 @@
     <Compile Include="Simulation\Items\IItem.cs" />
     <Compile Include="Simulation\Logic.cs" />
     <Compile Include="Simulation\Map\IGenerator.cs" />
+    <Compile Include="Simulation\Map\Smells\SmellType.cs" />
     <Compile Include="Simulation\Objects\FoodPile.cs" />
     <Compile Include="Simulation\Objects\ObjectsFactory.cs" />
+    <Compile Include="Simulation\Map\Smells\SmellInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

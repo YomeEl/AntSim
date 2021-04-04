@@ -11,7 +11,7 @@ namespace AntSim.Simulation.Ants
             Type = type;
         }
 
-        public override void Step(float dt)
+        public override void Step(float dt, Field<Cell> field)
         {
             throw new System.NotImplementedException();
         }

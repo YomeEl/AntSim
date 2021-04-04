@@ -1,11 +1,19 @@
-﻿using AntSim.Graphics;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+
+using AntSim.Simulation.Map.Smells;
+using AntSim.Simulation.Items;
 
 namespace AntSim.Simulation.Map
 {
     class Cell
     {
-        public GraphicalObject Entity { get; set; } = null;
-        public Dictionary<uint, uint> Smells { get; set; } = new Dictionary<uint, uint>();
+        public IItem Item { get; set; }
+        public List<SmellInfo> Smells { get; }
+
+        public Cell()
+        {
+            Item = null;
+            Smells = new List<SmellInfo>();
+        }
     }
 }

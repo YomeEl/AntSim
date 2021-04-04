@@ -27,7 +27,7 @@ namespace AntSim.Simulation
                     if (randomizer.Next(0, 25000) == 0)
                     {
                         var foodPile = ObjectsFactory.CreateFoodPile();
-                        chunk.Grid[i, j].Entity = foodPile;
+                        chunk.Grid[i, j].Item = foodPile;
                         float posX = i + position.X * size;
                         float posY = j + position.Y * size;
                         foodPile.Position = new Vector2f(posX, posY);
@@ -35,7 +35,7 @@ namespace AntSim.Simulation
                     }
                     else
                     {
-                        chunk.Grid[i, j].Entity = null;
+                        chunk.Grid[i, j].Item = null;
                     }
                 }
             }

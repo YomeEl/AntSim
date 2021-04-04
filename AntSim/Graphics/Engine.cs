@@ -1,4 +1,5 @@
-﻿using AntSim.Simulation.Map;
+﻿using System.Collections.Generic;
+
 using SFML.Graphics;
 using SFML.System;
 using SFML.Window;
@@ -10,11 +11,14 @@ namespace AntSim.Graphics
         private readonly RenderWindow win;
         private byte cellSize;
         private Vector2i previousMousePosition;
+        private SortedSet<GraphicalObject> objects;
 
         private Vector2f cameraPosition;
 
         public Engine(uint width, uint height)
         {
+            objects = new SortedSet<GraphicalObject>();
+
             win = new RenderWindow(new VideoMode(width, height), "Ant simulation");
             win.SetFramerateLimit(60);
 
@@ -70,7 +74,17 @@ namespace AntSim.Graphics
             previousMousePosition = currentMousePosition;
         }
 
-        public bool Draw(GraphicalObject[] objects)
+        public void Register(GraphicalObject obj)
+        {
+            objects.Add(obj);
+        }
+
+        public void Unregister(GraphicalObject obj)
+        {
+            objects.Remove(obj);
+        }
+        
+        public bool Draw()
         {
             ProcessCameraEvents();
 

@@ -15,12 +15,12 @@ namespace AntSim.Simulation
         private readonly Engine engine;
 
         public List<Colony> Colonies { get; }
-        public Field<Cell> Map { get; }
+        public Field<Cell> Smells { get; }
 
         public Logic()
         {
             Colonies = new List<Colony>();
-            Map = new Field<Cell>(new MapGenerator());
+            Smells = new Field<Cell>(new MapGenerator());
             engine = new Engine(800, 600);
         }
 
@@ -35,7 +35,7 @@ namespace AntSim.Simulation
                 {
                     foreach (Ant ant in colony.Ants)
                     {
-                        ant.Step(deltaTime);
+                        ant.Step(deltaTime, Smells);
                     }
                 }
             }
@@ -49,6 +49,7 @@ namespace AntSim.Simulation
                 var ant = AntsFactory.CreateWorker();
                 ant.Position = colony.Position;
                 colony.Ants.Add(ant);
+                engine.Register(ant);
             }
         }
     }

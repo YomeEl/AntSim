@@ -21,6 +21,6 @@ namespace AntSim.Simulation.Ants
             randomizer = new Random((int)antId);
         }
 
-        public abstract void Step(float dt);
+        public abstract void Step(float dt, Field<Cell> field);
     }
 }
