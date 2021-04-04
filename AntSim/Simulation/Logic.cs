@@ -38,16 +38,22 @@ namespace AntSim.Simulation
                         ant.Step(deltaTime, Smells);
                     }
                 }
+
+                engine.Draw();
             }
         }
 
         private void InitializeColonies()
         {
-            var colony = new Colony(0, new Vector2f(0, 0));
+            var colonyPosition = new Vector2f(0, 0);
+            var queen = AntsFactory.CreateQueen();
+            queen.Position = colonyPosition;
+            engine.Register(queen);
+            var colony = new Colony(0, colonyPosition, queen);
             for (int i = 0; i < 100; i++)
             {
                 var ant = AntsFactory.CreateWorker();
-                ant.Position = colony.Position;
+                ant.Position = colonyPosition;
                 colony.Ants.Add(ant);
                 engine.Register(ant);
             }
