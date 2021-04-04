@@ -14,19 +14,42 @@ namespace AntSim.Simulation
     {
         private readonly Engine engine;
 
-        public List<Ant> Ants { get; }
+        public List<Colony> Colonies { get; }
         public Field<Cell> Map { get; }
 
         public Logic()
         {
-            Ants = new List<Ant>();
+            Colonies = new List<Colony>();
             Map = new Field<Cell>(new MapGenerator());
             engine = new Engine(800, 600);
         }
 
         public void RunSimulation()
         {
-            
+            InitializeColonies();
+
+            float deltaTime = 1f;
+            while (true)
+            {
+                foreach (Colony colony in Colonies)
+                {
+                    foreach (Ant ant in colony.Ants)
+                    {
+                        ant.Step(deltaTime);
+                    }
+                }
+            }
+        }
+
+        private void InitializeColonies()
+        {
+            var colony = new Colony(0, new Vector2f(0, 0));
+            for (int i = 0; i < 100; i++)
+            {
+                var ant = AntsFactory.CreateWorker();
+                ant.Position = colony.Position;
+                colony.Ants.Add(ant);
+            }
         }
     }
 }
