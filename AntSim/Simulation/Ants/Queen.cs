@@ -1,5 +1,4 @@
 ﻿using AntSim.Simulation.Map;
-using System;
 
 namespace AntSim.Simulation.Ants
 {

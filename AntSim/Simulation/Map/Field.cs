@@ -1,5 +1,6 @@
-﻿using SFML.System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+
+using SFML.System;
 
 namespace AntSim.Simulation.Map
 {

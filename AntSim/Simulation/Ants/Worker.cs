@@ -1,10 +1,4 @@
 ﻿using AntSim.Simulation.Map;
-using AntSim.Simulation.Objects;
-using AntSim.Simulation.Items;
-
-using SFML.System;
-
-using System;
 
 namespace AntSim.Simulation.Ants
 {

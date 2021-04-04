@@ -1,7 +1,7 @@
-﻿using SFML.Graphics;
-using SFML.System;
+﻿using System;
 
-using System;
+using SFML.Graphics;
+using SFML.System;
 
 namespace AntSim.Graphics
 {
@@ -10,7 +10,7 @@ namespace AntSim.Graphics
         public Texture Texture { get; }
         public (byte W, byte H) Size { get; }
         public Vector2f Position { get; set; }
-        public float Rotation { get; set; } = 0f;
+        public float Rotation { get; set; } 
 
         private static int nextId = 0;
         private int id;
@@ -19,6 +19,7 @@ namespace AntSim.Graphics
         {
             Texture = texture;
             Size = (width, height);
+            Rotation = 0f;
 
             id = nextId++;
         }

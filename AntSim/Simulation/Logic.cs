@@ -1,12 +1,10 @@
 ﻿using AntSim.Graphics;
 using AntSim.Simulation.Ants;
 using AntSim.Simulation.Map;
-using AntSim.Simulation.Objects;
+
+using System.Collections.Generic;
 
 using SFML.System;
-
-using System;
-using System.Collections.Generic;
 
 namespace AntSim.Simulation
 {

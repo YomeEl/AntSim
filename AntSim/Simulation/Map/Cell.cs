@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-
-using AntSim.Simulation.Map.Smells;
+﻿using AntSim.Simulation.Map.Smells;
 using AntSim.Simulation.Items;
+
+using System.Collections.Generic;
 
 namespace AntSim.Simulation.Map
 {
