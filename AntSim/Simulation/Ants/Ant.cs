@@ -5,6 +5,8 @@ using AntSim.Simulation.Items;
 
 using System;
 
+using SFML.System;
+
 namespace AntSim.Simulation.Ants
 {
     abstract class Ant : GraphicalObject
@@ -22,6 +24,8 @@ namespace AntSim.Simulation.Ants
             randomizer = new Random((int)antId);
         }
 
+        public abstract void Step(float dt, Field<Cell> field);
+
         /// <summary>
         /// Find coordinates of the most far smell from self, that is also the most strong
         /// </summary>
@@ -29,7 +33,7 @@ namespace AntSim.Simulation.Ants
         /// <param name="radius">Radius</param>
         /// <param name="type">Type of smell to search</param>
         /// <returns>Coordinates of desirable smell</returns>
-        public (int x, int y) FindFarSmell(Field<Cell> field, int radius, SmellType type)
+        private (int x, int y, bool found) FindFarSmell(Field<Cell> field, int radius, SmellType type)
         {
             float dist = -1;
             (int x, int y) pos = (0, 0);
@@ -53,9 +57,15 @@ namespace AntSim.Simulation.Ants
                 }
             }
 
-            return pos;
+            return (pos.x, pos.y, dist >= 0);
         }
 
-        public abstract void Step(float dt, Field<Cell> field);
+        private Vector2f Normalize(Vector2f vect)
+        {
+            var len = (float)Math.Sqrt(vect.X * vect.X + vect.Y * vect.Y);
+            vect.X /= len;
+            vect.Y /= len;
+            return vect;
+        }
     }
 }
