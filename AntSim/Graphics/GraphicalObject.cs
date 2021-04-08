@@ -44,7 +44,7 @@ namespace AntSim.Graphics
         public Vector2f GetDirection()
         {
             var rad = ToRadians(Rotation);
-            return new Vector2f(Position.X * (float)Math.Cos(rad), Position.Y * (float)Math.Sin(rad));
+            return new Vector2f((float)Math.Cos(rad), (float)Math.Sin(rad));
         }
 
         private float ToRadians(float deg)
