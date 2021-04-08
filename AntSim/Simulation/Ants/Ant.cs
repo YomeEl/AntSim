@@ -1,5 +1,6 @@
 ﻿using AntSim.Graphics;
 using AntSim.Simulation.Map;
+using AntSim.Simulation.Map.Smells;
 using AntSim.Simulation.Items;
 
 using System;
@@ -19,6 +20,40 @@ namespace AntSim.Simulation.Ants
             AntId = antId;
             FactionId = factionId;
             randomizer = new Random((int)antId);
+        }
+
+        /// <summary>
+        /// Find coordinates of the most far smell from self, that is also the most strong
+        /// </summary>
+        /// <param name="field">Field for seraching</param>
+        /// <param name="radius">Radius</param>
+        /// <param name="type">Type of smell to search</param>
+        /// <returns>Coordinates of desirable smell</returns>
+        public (int x, int y) FindFarSmell(Field<Cell> field, int radius, SmellType type)
+        {
+            float dist = -1;
+            (int x, int y) pos = (0, 0);
+            int str = -1;
+
+            Predicate<SmellInfo> pred;
+            pred = (SmellInfo s) => s.Type == type;
+
+            for (int i = -radius; i < radius; i++)
+            {
+                for (int j = -radius; j < radius; j++)
+                {
+                    var smell = field[i, j].Smells.Find(pred);
+                    var curDist = Math.Abs(Position.X - i) + Math.Abs(Position.Y - j);
+                    if (smell.Strength != -1 && (dist < curDist || smell.Strength > str))
+                    {
+                        pos = (i, j);
+                        dist = curDist;
+                        str = smell.Strength;
+                    }
+                }
+            }
+
+            return pos;
         }
 
         public abstract void Step(float dt, Field<Cell> field);
