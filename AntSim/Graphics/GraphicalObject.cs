@@ -40,5 +40,16 @@ namespace AntSim.Graphics
                 throw new Exception("Trying to compare objects of different types!");
             }
         }
+
+        public Vector2f GetDirection()
+        {
+            var rad = ToRadians(Rotation);
+            return new Vector2f(Position.X * (float)Math.Cos(rad), Position.Y * (float)Math.Sin(rad));
+        }
+
+        private float ToRadians(float deg)
+        {
+            return deg / 360f * (float)Math.PI * 2;
+        }
     }
 }
