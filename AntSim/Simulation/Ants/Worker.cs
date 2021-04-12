@@ -16,13 +16,15 @@ namespace AntSim.Simulation.Ants
         public override void Step(float dt, Field<Cell> field)
         {
             var target = FindFarSmell(field, SEARCHING_RADIUS, Map.Smells.SmellType.FromFood);
+            float mult = 1f;
             if (!target.found)
             {
-                target.x = randomizer.Next();
-                target.y = randomizer.Next();
+                target.x = randomizer.Next(-100, 100);
+                target.y = randomizer.Next(-100, 100);
+                mult = 0.0001f;
             }
 
-            var newDir = Direction + new Vector2f(target.x, target.y);
+            var newDir = Direction + mult * new Vector2f(target.x, target.y);
             newDir = Normalize(newDir) * dt;
 
             Position += newDir;
