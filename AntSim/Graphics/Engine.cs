@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System;
 
 using SFML.Graphics;
 using SFML.System;
@@ -121,7 +122,13 @@ namespace AntSim.Graphics
                         (float)cellSize * obj.Size.W / obj.Texture.Size.X, 
                         (float)cellSize * obj.Size.H / obj.Texture.Size.Y
                     );
-                    sprite.Rotation = (float)System.Math.Atan2(obj.Position.X, obj.Position.Y);
+                    double rad = Math.Atan2(obj.Direction.X, -obj.Direction.Y);
+                    float rotation = (float)(rad / Math.PI / 2 * 360f);
+                    if (rotation < 0)
+                    {
+                        rotation = 360 + rotation;
+                    }
+                    sprite.Rotation = rotation;
                     sprite.Position = pos;
 
                     win.Draw(sprite);               
