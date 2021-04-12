@@ -26,7 +26,7 @@ namespace AntSim.Simulation
         {
             InitializeColonies();
 
-            float deltaTime = 1f;
+            float deltaTime = 0.1f;
             while (engine.Active)
             {
                 foreach (Colony colony in Colonies)
@@ -66,6 +66,7 @@ namespace AntSim.Simulation
                 colony.Ants.Add(ant);
                 engine.Register(ant);
             }
+            Colonies.Add(colony);
         }
     }
 }

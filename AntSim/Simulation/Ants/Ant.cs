@@ -48,7 +48,7 @@ namespace AntSim.Simulation.Ants
                 {
                     var smell = field[i, j].Smells.Find(pred);
                     var curDist = Math.Abs(Position.X - i) + Math.Abs(Position.Y - j);
-                    if (smell.Strength != -1 && (dist < curDist || smell.Strength > str))
+                    if (smell != null && (dist < curDist || smell.Strength > str))
                     {
                         pos = (i, j);
                         dist = curDist;

@@ -10,7 +10,7 @@ namespace AntSim.Graphics
         public Texture Texture { get; }
         public (byte W, byte H) Size { get; }
         public Vector2f Position { get; set; }
-        public float Rotation { get; set; } 
+        public Vector2f Direction { get; set; }
 
         private static int nextId = 0;
         private int id;
@@ -19,7 +19,8 @@ namespace AntSim.Graphics
         {
             Texture = texture;
             Size = (width, height);
-            Rotation = 0f;
+            Position = new Vector2f(0, 0);
+            Direction = new Vector2f(0, 0);
 
             id = nextId++;
         }
@@ -39,17 +40,6 @@ namespace AntSim.Graphics
             {
                 throw new Exception("Trying to compare objects of different types!");
             }
-        }
-
-        public Vector2f GetDirection()
-        {
-            var rad = ToRadians(Rotation);
-            return new Vector2f((float)Math.Cos(rad), (float)Math.Sin(rad));
-        }
-
-        private float ToRadians(float deg)
-        {
-            return deg / 360f * (float)Math.PI * 2;
         }
     }
 }

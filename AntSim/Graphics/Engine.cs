@@ -121,7 +121,7 @@ namespace AntSim.Graphics
                         (float)cellSize * obj.Size.W / obj.Texture.Size.X, 
                         (float)cellSize * obj.Size.H / obj.Texture.Size.Y
                     );
-                    sprite.Rotation = obj.Rotation;
+                    sprite.Rotation = (float)System.Math.Atan2(obj.Position.X, obj.Position.Y);
                     sprite.Position = pos;
 
                     win.Draw(sprite);               
