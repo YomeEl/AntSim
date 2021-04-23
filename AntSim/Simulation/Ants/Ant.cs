@@ -33,10 +33,10 @@ namespace AntSim.Simulation.Ants
         /// <param name="radius">Radius</param>
         /// <param name="type">Type of smell to search</param>
         /// <returns>Coordinates of desirable smell</returns>
-        protected (int x, int y, bool found) FindFarSmell(Field<Cell> field, int radius, SmellType type)
+        protected (Vector2i position, bool found) FindFarSmell(Field<Cell> field, int radius, SmellType type)
         {
             float dist = -1;
-            (int x, int y) pos = (0, 0);
+            var pos = new Vector2i(0, 0);
             int str = -1;
 
             Predicate<SmellInfo> pred;
@@ -50,14 +50,15 @@ namespace AntSim.Simulation.Ants
                     var curDist = Math.Abs(Position.X - i) + Math.Abs(Position.Y - j);
                     if (smell != null && (dist < curDist || smell.Strength > str))
                     {
-                        pos = (i, j);
+                        pos.X = i;
+                        pos.Y = j;
                         dist = curDist;
                         str = smell.Strength;
                     }
                 }
             }
 
-            return (pos.x, pos.y, dist >= 0);
+            return (pos, dist >= 0);
         }
 
         protected Vector2f Normalize(Vector2f vect)

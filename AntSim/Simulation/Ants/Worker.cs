@@ -19,12 +19,12 @@ namespace AntSim.Simulation.Ants
             float mult = 1f;
             if (!target.found)
             {
-                target.x = randomizer.Next(-100, 100);
-                target.y = randomizer.Next(-100, 100);
+                target.position.X = randomizer.Next(-100, 100);
+                target.position.Y = randomizer.Next(-100, 100);
                 mult = 0.0001f;
             }
 
-            var newDir = Direction + mult * new Vector2f(target.x, target.y);
+            var newDir = Direction + mult * new Vector2f(target.position.X, target.position.Y);
             newDir = Normalize(newDir) * dt;
 
             Position += newDir;
