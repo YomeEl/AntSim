@@ -9,9 +9,9 @@ namespace AntSim.Simulation.Ants
     class Worker : Ant
     {
         private const int SEARCHING_RADIUS = 10;
-        private const float LEG_LENGTH = 1;
+        private const int NEW_WP_MIN_DIST = 5;
 
-        private Vector2f waypoint;
+        public Vector2f waypoint;
         private Vector2i? foodPosition;
 
         public Worker(uint antId, uint factionId, SFML.Graphics.Texture texture, byte width, byte height) : 
@@ -22,14 +22,16 @@ namespace AntSim.Simulation.Ants
 
         public override void Step(float dt, Field<Cell> field)
         {
-            if (Math.Abs(waypoint.X - Position.X) < 0.1f &&
-                Math.Abs(waypoint.Y - Position.Y) < 0.1f)
+            Console.WriteLine(Distance(waypoint, Position));
+            if (Distance(waypoint, Position) < 0.1f)
             {
                 var target = FindFarSmell(field, SEARCHING_RADIUS, Map.Smells.SmellType.FromFood);
                 if (!target.found)
                 {
-                    waypoint.X = randomizer.Next(-SEARCHING_RADIUS, SEARCHING_RADIUS);
-                    waypoint.Y = randomizer.Next(-SEARCHING_RADIUS, SEARCHING_RADIUS);
+                    float sgnX = (randomizer.Next(0, 9) < 5) ? 1 : -1;
+                    float sgnY = (randomizer.Next(0, 9) < 5) ? 1 : -1;
+                    waypoint.X = randomizer.Next(NEW_WP_MIN_DIST, SEARCHING_RADIUS) * sgnX;
+                    waypoint.Y = randomizer.Next(NEW_WP_MIN_DIST, SEARCHING_RADIUS) * sgnY;
                     foodPosition = null;
                 }
                 else
@@ -41,6 +43,13 @@ namespace AntSim.Simulation.Ants
                 waypoint += Position;
 
                 Direction = Normalize(waypoint - Position);
+            }
+            else
+            {
+                if (IsRotating)
+                {
+                    Direction = Normalize(waypoint - Position);
+                }
             }
 
             Position += Direction * dt;
