@@ -17,6 +17,8 @@ namespace AntSim.Simulation.Ants
         public uint FactionId { get; }
         public IItem Item { get; protected set; }
 
+        protected float speed;
+
         public Ant(uint antId, uint factionId, SFML.Graphics.Texture texture, byte width, byte height) : base(texture, width, height)
         {
             AntId = antId;

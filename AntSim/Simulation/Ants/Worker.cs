@@ -10,15 +10,16 @@ namespace AntSim.Simulation.Ants
     {
         private const int SEARCHING_RADIUS = 10;
         private const int NEW_WP_MIN_DIST = 5;
-        private const float SPEED = 1f;
 
         public Vector2f waypoint;
+
         private Vector2i? foodPosition;
 
         public Worker(uint antId, uint factionId, SFML.Graphics.Texture texture, byte width, byte height) : 
             base(antId, factionId, texture, width, height)
         {
             waypoint = Position;
+            speed = 1f;
         }
 
         public override void Step(float dt, Field<Cell> field)
@@ -52,7 +53,7 @@ namespace AntSim.Simulation.Ants
                 }
             }
 
-            Position += Direction * dt * SPEED;
+            Position += Direction * dt * speed;
         }
     }
 }
