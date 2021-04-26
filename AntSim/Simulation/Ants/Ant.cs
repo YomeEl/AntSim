@@ -60,13 +60,5 @@ namespace AntSim.Simulation.Ants
 
             return (pos, dist >= 0);
         }
-
-        protected Vector2f Normalize(Vector2f vect)
-        {
-            var len = (float)Math.Sqrt(vect.X * vect.X + vect.Y * vect.Y);
-            vect.X /= len;
-            vect.Y /= len;
-            return vect;
-        }
     }
 }
