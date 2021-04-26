@@ -22,7 +22,6 @@ namespace AntSim.Simulation.Ants
 
         public override void Step(float dt, Field<Cell> field)
         {
-            Console.WriteLine(Distance(waypoint, Position));
             if (Distance(waypoint, Position) < 0.1f)
             {
                 var target = FindFarSmell(field, SEARCHING_RADIUS, Map.Smells.SmellType.FromFood);
