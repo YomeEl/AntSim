@@ -10,6 +10,7 @@ namespace AntSim.Simulation.Ants
     {
         private const int SEARCHING_RADIUS = 10;
         private const int NEW_WP_MIN_DIST = 5;
+        private const float SPEED = 1f;
 
         public Vector2f waypoint;
         private Vector2i? foodPosition;
@@ -51,7 +52,7 @@ namespace AntSim.Simulation.Ants
                 }
             }
 
-            Position += Direction * dt;
+            Position += Direction * dt * SPEED;
         }
     }
 }
