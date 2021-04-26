@@ -109,6 +109,24 @@ namespace AntSim.Graphics
 
             foreach (GraphicalObject obj in objects)
             {
+                obj.UpdateDirection();
+
+                //DEBUG
+                if (obj is AntSim.Simulation.Ants.Worker)
+                {
+                    var s = new Sprite(obj.Texture);
+                    s.Color = Color.Red;
+                    var worker = (AntSim.Simulation.Ants.Worker)obj;
+                    var pos = new Vector2f
+                    (
+                        worker.waypoint.X * cellSize - offset.X + (int)win.Size.X / 2,
+                        worker.waypoint.Y * cellSize - offset.Y + (int)win.Size.Y / 2
+                    );
+                    s.Position = pos;
+                    win.Draw(s);
+                }
+                //DEBUG
+
                 if (obj.Position.X >= left - maxAntSize && obj.Position.X <= left + width &&
                     obj.Position.Y >= top - maxAntSize && obj.Position.Y <= top + height)
                 {
