@@ -44,9 +44,12 @@ namespace AntSim.Simulation.Ants
             Predicate<SmellInfo> pred;
             pred = (SmellInfo s) => s.Type == type;
 
-            for (int i = -radius; i < radius; i++)
+            var intPos = new Vector2i((int)Position.X, (int)Position.Y);
+            var start = intPos - new Vector2i(radius, radius);
+            var end = intPos + new Vector2i(radius, radius);
+            for (int i = start.X; i <= end.X; i++)
             {
-                for (int j = -radius; j < radius; j++)
+                for (int j = start.Y; j <= end.Y; j++)
                 {
                     var smell = field[i, j].Smells.Find(pred);
                     var curDist = Math.Abs(Position.X - i) + Math.Abs(Position.Y - j);
