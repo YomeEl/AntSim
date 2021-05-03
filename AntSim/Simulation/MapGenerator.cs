@@ -39,6 +39,7 @@ namespace AntSim.Simulation
                     {
                         var foodPile = ObjectsFactory.CreateFoodPile();
                         chunk.Grid[i, j].Item = foodPile;
+                        chunk.Grid[i, j].Smells.Add(new Map.Smells.SmellInfo(Map.Smells.SmellType.FromFood, 10));
                         float posX = i + position.X * size;
                         float posY = j + position.Y * size;
                         foodPile.Position = new Vector2f(posX, posY);
