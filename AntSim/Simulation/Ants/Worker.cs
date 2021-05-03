@@ -34,10 +34,10 @@ namespace AntSim.Simulation.Ants
                     var target = FindFarSmell(field, SEARCHING_RADIUS, Map.Smells.SmellType.FromFood);
                     if (!target.found)
                     {
-                        float sgnX = (randomizer.Next(0, 9) < 5) ? 1 : -1;
-                        float sgnY = (randomizer.Next(0, 9) < 5) ? 1 : -1;
-                        waypoint.X = randomizer.Next(NEW_WP_MIN_DIST, NEW_WP_MAX_DIST) * sgnX;
-                        waypoint.Y = randomizer.Next(NEW_WP_MIN_DIST, NEW_WP_MAX_DIST) * sgnY;
+                        float sgnX = (randomizer.Next(0, 10) < 5) ? 1 : -1;
+                        float sgnY = (randomizer.Next(0, 10) < 5) ? 1 : -1;
+                        waypoint.X = randomizer.Next(NEW_WP_MIN_DIST, NEW_WP_MAX_DIST + 1) * sgnX;
+                        waypoint.Y = randomizer.Next(NEW_WP_MIN_DIST, NEW_WP_MAX_DIST + 1) * sgnY;
                         foodPosition = null;
                     }
                     else
