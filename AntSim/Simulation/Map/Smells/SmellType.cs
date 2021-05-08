@@ -2,6 +2,6 @@
 {
     enum SmellType
     {
-        FromHome, FromFood
+        FromHome, FromFood, Food
     }
 }
