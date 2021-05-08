@@ -35,7 +35,7 @@ namespace AntSim.Simulation.Ants
         /// <param name="radius">Radius</param>
         /// <param name="type">Type of smell to search</param>
         /// <returns>Coordinates of desirable smell</returns>
-        protected (Vector2i position, bool found) FindFarSmell(Field<Cell> field, int radius, SmellType type)
+        protected (Vector2i position, bool found) FindFarSmell(Field<Cell> field, int radius)
         {
             float dist = -1;
             var pos = new Vector2i(0, 0);

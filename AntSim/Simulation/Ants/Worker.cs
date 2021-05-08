@@ -31,7 +31,7 @@ namespace AntSim.Simulation.Ants
                 var dist = Distance(waypoint, Position);
                 if (dist < 0.1f || dist > 2 * SEARCHING_RADIUS)
                 {
-                    var target = FindFarSmell(field, SEARCHING_RADIUS, Map.Smells.SmellType.FromFood);
+                    var target = FindFarSmell(field, SEARCHING_RADIUS);
                     if (!target.found)
                     {
                         float sgnX = (randomizer.Next(0, 10) < 5) ? 1 : -1;
