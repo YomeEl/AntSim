@@ -10,7 +10,6 @@ namespace AntSim.Simulation
 {
     class MapGenerator : IGenerator<Cell>
     {
-        public Cell DefaultValue { get; }
         public List<FoodPile> FoodPiles { get; }
 
         private readonly Random randomizer;
@@ -19,7 +18,6 @@ namespace AntSim.Simulation
 
         public MapGenerator(Graphics.Engine engine)
         {
-            DefaultValue = new Cell();
             FoodPiles = new List<FoodPile>();
 
             randomizer = new Random(32);
