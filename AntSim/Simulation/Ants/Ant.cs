@@ -41,9 +41,6 @@ namespace AntSim.Simulation.Ants
             var pos = new Vector2i(0, 0);
             int str = -1;
 
-            Predicate<SmellInfo> pred;
-            pred = (SmellInfo s) => s.Type == type;
-
             var intPos = new Vector2i((int)Position.X, (int)Position.Y);
             var start = intPos - new Vector2i(radius, radius);
             var end = intPos + new Vector2i(radius, radius);
@@ -51,7 +48,7 @@ namespace AntSim.Simulation.Ants
             {
                 for (int j = start.Y; j <= end.Y; j++)
                 {
-                    var smell = field[i, j].Smells.Find(pred);
+                    var smell = FindSmellWithPriority(field[i, j].Smells);
                     var curDist = Math.Abs(Position.X - i) + Math.Abs(Position.Y - j);
                     if (smell != null && (dist < curDist || smell.Strength > str))
                     {
@@ -64,6 +61,21 @@ namespace AntSim.Simulation.Ants
             }
 
             return (pos, dist >= 0);
+        }
+        
+        protected SmellInfo FindSmellWithPriority(System.Collections.Generic.List<SmellInfo> list)
+        {
+            SmellInfo smellInfo = null;
+            int priority = -1;
+            for (var i = 0; i < list.Count; i++)
+            {
+                if ((int)list[i].Type > priority)
+                {
+                    smellInfo = list[i];
+                    priority = (int)smellInfo.Type;
+                }
+            }
+            return smellInfo;
         }
     }
 }
