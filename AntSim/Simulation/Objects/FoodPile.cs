@@ -8,7 +8,8 @@ namespace AntSim.Simulation.Objects
     class FoodPile : GraphicalObject, IItem
     {
         public uint Count { get; set; }
-        public FoodPile(uint count, Texture texture, byte width, byte height) : base(texture, width, height)
+
+        public FoodPile(uint count, Texture texture) : base(texture, 1, 1)
         {
             Count = count;
         }

@@ -9,6 +9,49 @@ namespace AntSim.Simulation.Map
         private readonly IGenerator<T> generator;
         private readonly Dictionary<Vector2i, Chunk<T>> chunks;
 
+        public Field(IGenerator<T> generator)
+        {
+            chunks = new Dictionary<Vector2i, Chunk<T>>();
+            this.generator = generator;
+        }
+
+        public T this[int x, int y]
+        {
+            get
+            {
+                var targetChunk = GetChunk(x, y);
+
+                if (targetChunk == null)
+                {
+                    targetChunk = GenerateChunk(GetChunkCoords(x, y));
+                }
+
+                var targetCoords = GetLocalCoords(x, y);
+
+                return targetChunk.Grid[targetCoords.X, targetCoords.Y];
+            }
+
+            set
+            {
+                var targetChunk = GetChunk(x, y);
+                var targetCoords = GetLocalCoords(x, y);
+
+                if (targetChunk == null)
+                {
+                    targetChunk = GenerateChunk(GetChunkCoords(x, y));
+                }
+
+                targetChunk.Grid[targetCoords.X, targetCoords.Y] = value;
+            }
+        }
+
+        public Chunk<T> GenerateChunk(Vector2i coords)
+        {
+            var newChunk = generator.GenerateChunk(coords);
+            chunks[coords] = newChunk;
+            return newChunk;
+        }
+
         private Chunk<T> GetChunk(int x, int y)
         {
             var targetChunkCoords = GetChunkCoords(x, y);
@@ -70,49 +113,6 @@ namespace AntSim.Simulation.Map
             }
 
             return targetCoords;
-        }
-
-        public Field(IGenerator<T> generator)
-        {
-            chunks = new Dictionary<Vector2i, Chunk<T>>();
-            this.generator = generator;
-        }
-
-        public T this[int x, int y]
-        {
-            get
-            {
-                var targetChunk = GetChunk(x, y);
-
-                if (targetChunk == null)
-                {
-                    targetChunk = GenerateChunk(GetChunkCoords(x, y));
-                }
-
-                var targetCoords = GetLocalCoords(x, y);
-
-                return targetChunk.Grid[targetCoords.X, targetCoords.Y];
-            }
-
-            set
-            {
-                var targetChunk = GetChunk(x, y);
-                var targetCoords = GetLocalCoords(x, y);
-
-                if (targetChunk == null)
-                {
-                    targetChunk = GenerateChunk(GetChunkCoords(x, y));
-                }
-
-                targetChunk.Grid[targetCoords.X, targetCoords.Y] = value;
-            }
-        }
-
-        public Chunk<T> GenerateChunk(Vector2i coords)
-        {
-            var newChunk = generator.GenerateChunk(coords);
-            chunks[coords] = newChunk;
-            return newChunk;
         }
     }
 }

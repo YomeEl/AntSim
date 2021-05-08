@@ -13,7 +13,7 @@ namespace AntSim.Simulation.Ants
 
         public override void Step(float dt, Field<Cell> field)
         {
-
+            throw new NotImplementedException();
         }
     }
 }

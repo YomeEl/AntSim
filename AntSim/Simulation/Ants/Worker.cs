@@ -1,6 +1,4 @@
-﻿using System;
-
-using AntSim.Simulation.Map;
+﻿using AntSim.Simulation.Map;
 
 using SFML.System;
 
@@ -8,11 +6,11 @@ namespace AntSim.Simulation.Ants
 {
     class Worker : Ant
     {
+        public Vector2f waypoint;
+
         private const int SEARCHING_RADIUS = 25;
         private const int NEW_WP_MIN_DIST = 5;
         private const int NEW_WP_MAX_DIST = 10;
-
-        public Vector2f waypoint;
 
         private Vector2i? foodPosition;
 

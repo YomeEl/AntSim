@@ -32,6 +32,69 @@ namespace AntSim.Graphics
             cellSize = 30;
         }
 
+        public void Register(GraphicalObject obj)
+        {
+            objects.Add(obj);
+        }
+
+        public void Unregister(GraphicalObject obj)
+        {
+            objects.Remove(obj);
+        }
+
+        public bool Draw()
+        {
+            ProcessCameraEvents();
+
+            win.Clear(Color.White);
+
+            byte maxAntSize = 4;
+
+            float trueLeft = cameraPosition.X - win.Size.X / 2;
+            float trueTop = cameraPosition.Y - win.Size.Y / 2;
+            int left = (int)(trueLeft / cellSize);
+            int top = (int)(trueTop / cellSize);
+            int width = (int)win.Size.X / cellSize + 1;
+            int height = (int)win.Size.Y / cellSize + 1;
+            (int X, int Y) offset = ((int)cameraPosition.X, (int)cameraPosition.Y);
+
+            foreach (GraphicalObject obj in objects)
+            {
+                obj.UpdateDirection();
+
+                if (obj.Position.X >= left - maxAntSize && obj.Position.X <= left + width &&
+                    obj.Position.Y >= top - maxAntSize && obj.Position.Y <= top + height)
+                {
+                    var pos = new Vector2f
+                    (
+                        obj.Position.X * cellSize - offset.X + (int)win.Size.X / 2,
+                        obj.Position.Y * cellSize - offset.Y + (int)win.Size.Y / 2
+                    );
+                    var sprite = new Sprite(obj.Texture);
+                    sprite.Scale = new Vector2f(
+                        (float)cellSize * obj.Size.W / obj.Texture.Size.X,
+                        (float)cellSize * obj.Size.H / obj.Texture.Size.Y
+                    );
+                    double rad = Math.Atan2(obj.Direction.X, -obj.Direction.Y);
+                    float rotation = (float)(rad / Math.PI / 2 * 360f);
+                    if (rotation < 0)
+                    {
+                        rotation = 360 + rotation;
+                    }
+                    sprite.Rotation = rotation;
+                    sprite.Position = pos;
+
+                    win.Draw(sprite);
+                }
+            }
+
+            win.Display();
+
+            win.DispatchEvents();
+
+            return win.IsOpen;
+        }
+
         private void ChangeCellSize(float amount)
         {
             float newCellSize = cellSize;
@@ -79,69 +142,6 @@ namespace AntSim.Graphics
                 cameraPosition.Y += previousMousePosition.Y - currentMousePosition.Y;
             }
             previousMousePosition = currentMousePosition;
-        }
-
-        public void Register(GraphicalObject obj)
-        {
-            objects.Add(obj);
-        }
-
-        public void Unregister(GraphicalObject obj)
-        {
-            objects.Remove(obj);
-        }
-        
-        public bool Draw()
-        {
-            ProcessCameraEvents();
-
-            win.Clear(Color.White);
-
-            byte maxAntSize = 4;
-
-            float trueLeft = cameraPosition.X - win.Size.X / 2;
-            float trueTop = cameraPosition.Y - win.Size.Y / 2;
-            int left = (int)(trueLeft / cellSize);
-            int top = (int)(trueTop / cellSize);
-            int width = (int)win.Size.X / cellSize + 1;
-            int height = (int)win.Size.Y / cellSize + 1;
-            (int X, int Y) offset = ((int)cameraPosition.X, (int)cameraPosition.Y);
-
-            foreach (GraphicalObject obj in objects)
-            {
-                obj.UpdateDirection();
-
-                if (obj.Position.X >= left - maxAntSize && obj.Position.X <= left + width &&
-                    obj.Position.Y >= top - maxAntSize && obj.Position.Y <= top + height)
-                {
-                    var pos = new Vector2f
-                    (
-                        obj.Position.X * cellSize - offset.X + (int)win.Size.X / 2, 
-                        obj.Position.Y * cellSize - offset.Y + (int)win.Size.Y / 2
-                    );
-                    var sprite = new Sprite(obj.Texture);
-                    sprite.Scale = new Vector2f(
-                        (float)cellSize * obj.Size.W / obj.Texture.Size.X, 
-                        (float)cellSize * obj.Size.H / obj.Texture.Size.Y
-                    );
-                    double rad = Math.Atan2(obj.Direction.X, -obj.Direction.Y);
-                    float rotation = (float)(rad / Math.PI / 2 * 360f);
-                    if (rotation < 0)
-                    {
-                        rotation = 360 + rotation;
-                    }
-                    sprite.Rotation = rotation;
-                    sprite.Position = pos;
-
-                    win.Draw(sprite);               
-                }
-            }
-
-            win.Display();
-
-            win.DispatchEvents();
-
-            return win.IsOpen;
         }
     }
 }

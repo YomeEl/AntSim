@@ -4,14 +4,14 @@ namespace AntSim.Simulation.Ants
 {
     static class AntsFactory
     {
+        public static uint CurrentFactionId = 0;
+
         private static readonly Texture queenTexture = new Texture("Splines/queen.png");
         private static readonly Texture babysitterTexture = new Texture("Splines/babysitter.png");
         private static readonly Texture soldierTexture = new Texture("Splines/soldier.png");
         private static readonly Texture workerTexture = new Texture("Splines/worker.png");
 
         private static uint currentAntId = 0;
-
-        public static uint CurrentFactionId = 0;
 
         public static Baby CreateBaby(AntType type)
         {

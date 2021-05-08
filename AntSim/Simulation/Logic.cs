@@ -10,10 +10,10 @@ namespace AntSim.Simulation
 {
     class Logic
     {
-        private readonly Engine engine;
-
         public List<Colony> Colonies { get; }
         public Field<Cell> Smells { get; }
+
+        private readonly Engine engine;
 
         public Logic()
         {
