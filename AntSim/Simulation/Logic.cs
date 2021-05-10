@@ -1,6 +1,7 @@
 ﻿using AntSim.Graphics;
 using AntSim.Simulation.Ants;
 using AntSim.Simulation.Map;
+using AntSim.Simulation.Map.Smells;
 
 using System.Collections.Generic;
 
@@ -57,6 +58,7 @@ namespace AntSim.Simulation
 
             var queen = AntsFactory.CreateQueen();
             queen.Position = colonyPosition;
+            Smells[intCPosX, intCposY].Smells.Add(new SmellInfo(SmellType.Home, 1));
             engine.Register(queen);
             var colony = new Colony(0, colonyPosition, queen);
             for (int i = 0; i < 100; i++)
