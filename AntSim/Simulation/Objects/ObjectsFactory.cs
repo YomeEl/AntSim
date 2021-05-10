@@ -8,7 +8,7 @@ namespace AntSim.Simulation.Objects
 
         public static FoodPile CreateFoodPile()
         {
-            return new FoodPile(1, foodPileTexture);
+            return new FoodPile((uint)Global.NumberConstants.Get("FoodCount"), foodPileTexture);
         }
     }
 }

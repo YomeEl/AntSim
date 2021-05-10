@@ -91,6 +91,7 @@
     <Compile Include="Simulation\Ants\Worker.cs" />
     <Compile Include="Simulation\Ants\Enums.cs" />
     <Compile Include="Simulation\Colony.cs" />
+    <Compile Include="Simulation\Global\Constants.cs" />
     <Compile Include="Simulation\MapGenerator.cs" />
     <Compile Include="Simulation\Map\Cell.cs" />
     <Compile Include="Simulation\Map\Chunk.cs" />

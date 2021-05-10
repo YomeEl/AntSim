@@ -2,10 +2,11 @@
 {
     class Chunk<T>
     {
-        public const byte SIZE = 100;
+        public readonly byte SIZE;
 
         public Chunk()
         {
+            SIZE = (byte)Global.NumberConstants.Get("ChunkSize");
             Grid = new T[SIZE, SIZE];
         }
 

@@ -10,9 +10,9 @@ namespace AntSim.Simulation.Ants
         private Vector2f waypoint;
         private Vector2i target;
 
-        private const int SEARCHING_RADIUS = 25;
-        private const int NEW_WP_MIN_DIST = 5;
-        private const int NEW_WP_MAX_DIST = 10;
+        private readonly int SEARCHING_RADIUS;
+        private readonly int NEW_WP_MIN_DIST;
+        private readonly int NEW_WP_MAX_DIST;
 
         private bool foundFood = false;
         private bool foundHome = false;
@@ -23,7 +23,11 @@ namespace AntSim.Simulation.Ants
             base(antId, factionId, texture, width, height)
         {
             waypoint = Position;
-            speed = 1f;
+
+            speed = Global.NumberConstants.Get("DefaultWorkerSpeed");
+            SEARCHING_RADIUS = (int)Global.NumberConstants.Get("WorkerSearchingRadius");
+            NEW_WP_MIN_DIST = (int)Global.NumberConstants.Get("WorkerNewWPMinDist");
+            NEW_WP_MAX_DIST = (int)Global.NumberConstants.Get("WorkerNewWPMaxDist");
         }
 
         public override void Step(float dt, Field<Cell> field)

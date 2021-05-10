@@ -18,8 +18,12 @@ namespace AntSim.Simulation
 
         public Logic()
         {
+            Global.NumberConstants.Load();
+
             Colonies = new List<Colony>();
-            engine = new Engine(800, 600);
+            var width = (uint)Global.NumberConstants.Get("WindowWidth");
+            var height = (uint)Global.NumberConstants.Get("WindowHeight");
+            engine = new Engine(width, height);
             Smells = new Field<Cell>(new MapGenerator(engine));
         }
 
@@ -27,7 +31,7 @@ namespace AntSim.Simulation
         {
             InitializeColonies();
 
-            float deltaTime = 0.1f;
+            float deltaTime = Global.NumberConstants.Get("DeltaTime");
             while (engine.Active)
             {
                 foreach (Colony colony in Colonies)
@@ -48,7 +52,7 @@ namespace AntSim.Simulation
 
             int intCPosX = (int)colonyPosition.X;
             int intCposY = (int)colonyPosition.Y; 
-            var chunkSize = Chunk<Cell>.SIZE;
+            var chunkSize = (int)Global.NumberConstants.Get("ChunkSize");
 
             //Generate four chunks around colony;
             Smells[intCPosX, intCposY].Item = null;

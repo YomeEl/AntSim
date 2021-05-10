@@ -8,10 +8,12 @@ namespace AntSim.Simulation.Map
     {
         private readonly IGenerator<T> generator;
         private readonly Dictionary<Vector2i, Chunk<T>> chunks;
+        private readonly int ChunkSize;
 
         public Field(IGenerator<T> generator)
         {
             chunks = new Dictionary<Vector2i, Chunk<T>>();
+            ChunkSize = (int)Global.NumberConstants.Get("ChunkSize");
             this.generator = generator;
         }
 
@@ -71,20 +73,20 @@ namespace AntSim.Simulation.Map
 
             if (x >= 0)
             {
-                targetChunkCoords.X = x / Chunk<T>.SIZE;
+                targetChunkCoords.X = x / ChunkSize;
             }
             else
             {
-                targetChunkCoords.X = (x + 1) / Chunk<T>.SIZE - 1;
+                targetChunkCoords.X = (x + 1) / ChunkSize - 1;
             }
 
             if (y >= 0)
             {
-                targetChunkCoords.Y = y / Chunk<T>.SIZE;
+                targetChunkCoords.Y = y / ChunkSize;
             }
             else
             {
-                targetChunkCoords.Y = (y + 1) / Chunk<T>.SIZE - 1;
+                targetChunkCoords.Y = (y + 1) / ChunkSize - 1;
             }
 
             return targetChunkCoords;
@@ -96,20 +98,20 @@ namespace AntSim.Simulation.Map
 
             if (x >= 0)
             {
-                targetCoords.X = x % Chunk<T>.SIZE;
+                targetCoords.X = x % ChunkSize;
             }
             else
             {
-                targetCoords.X = Chunk<T>.SIZE + ((x + 1) % Chunk<T>.SIZE) - 1;
+                targetCoords.X = ChunkSize + ((x + 1) % ChunkSize) - 1;
             }
 
             if (y >= 0)
             {
-                targetCoords.Y = y % Chunk<T>.SIZE;
+                targetCoords.Y = y % ChunkSize;
             }
             else
             {
-                targetCoords.Y = Chunk<T>.SIZE + ((y + 1) % Chunk<T>.SIZE) - 1;
+                targetCoords.Y = ChunkSize + ((y + 1) % ChunkSize) - 1;
             }
 
             return targetCoords;

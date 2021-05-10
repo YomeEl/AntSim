@@ -14,11 +14,15 @@ namespace AntSim.Simulation
 
         private readonly Random randomizer;
         private readonly Graphics.Engine engine;
-        private const int FOOD_PILE_RADIUS = 20;
+        private readonly int FOOD_PILE_RADIUS;
+        private readonly int CHUNK_SIZE;
 
         public MapGenerator(Graphics.Engine engine)
         {
             FoodPiles = new List<FoodPile>();
+
+            FOOD_PILE_RADIUS = (int)Global.NumberConstants.Get("FoodPileRadius");
+            CHUNK_SIZE = (int)Global.NumberConstants.Get("ChunkSize");
 
             randomizer = new Random(32);
             this.engine = engine;
@@ -27,7 +31,6 @@ namespace AntSim.Simulation
         public Chunk<Cell> GenerateChunk(Vector2i position)
         {
             var chunk = new Chunk<Cell>();
-            const int CHUNK_SIZE = Chunk<Cell>.SIZE;
             var center = new Vector2i(1, 1) * (CHUNK_SIZE / 2);
             for (int i = 0; i < CHUNK_SIZE; i++)
             {
@@ -53,8 +56,8 @@ namespace AntSim.Simulation
             }
 
             var food = ObjectsFactory.CreateFoodPile();
-            float posX = relativeFoodPosition.X + chunkPosition.X * Chunk<Cell>.SIZE;
-            float posY = relativeFoodPosition.Y + chunkPosition.Y * Chunk<Cell>.SIZE;
+            float posX = relativeFoodPosition.X + chunkPosition.X * CHUNK_SIZE;
+            float posY = relativeFoodPosition.Y + chunkPosition.Y * CHUNK_SIZE;
             food.Position = new Vector2f(posX, posY);
 
             chunk.Grid[relativeFoodPosition.X, relativeFoodPosition.Y].Item = food;
