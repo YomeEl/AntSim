@@ -79,5 +79,10 @@ namespace AntSim.Graphics
         {
             return Math.Abs(a.X - b.X) + Math.Abs(a.Y - b.Y);
         }
+
+        protected int Distance(Vector2i a, Vector2i b)
+        {
+            return Math.Abs(a.X - b.X) + Math.Abs(a.Y - b.Y);
+        }
     }
 }
