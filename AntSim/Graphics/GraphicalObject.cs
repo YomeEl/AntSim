@@ -18,6 +18,7 @@ namespace AntSim.Graphics
                 desiredDirection = value;
             } 
         }
+        public bool ShouldBeDestroyed { get; set; }
 
         protected bool IsRotating { get; private set; }
 
@@ -35,6 +36,7 @@ namespace AntSim.Graphics
             Position = new Vector2f(0, 0);
             Direction = new Vector2f(0, 0);
             IsRotating = false;
+            ShouldBeDestroyed = false;
 
             id = nextId++;
         }

@@ -58,8 +58,16 @@ namespace AntSim.Graphics
             int height = (int)win.Size.Y / cellSize + 1;
             (int X, int Y) offset = ((int)cameraPosition.X, (int)cameraPosition.Y);
 
+            var garbage = new List<GraphicalObject>();
+
             foreach (GraphicalObject obj in objects)
             {
+                if (obj.ShouldBeDestroyed)
+                {
+                    garbage.Add(obj);
+                    continue;
+                }
+
                 obj.UpdateDirection();
 
                 if (obj.Position.X >= left - maxAntSize && obj.Position.X <= left + width &&
@@ -87,6 +95,12 @@ namespace AntSim.Graphics
                     win.Draw(sprite);
                 }
             }
+
+            foreach (GraphicalObject obj in garbage)
+            {
+                Unregister(obj);
+            }
+            garbage.Clear();
 
             win.Display();
 
