@@ -63,7 +63,8 @@ namespace AntSim.Simulation.Ants
                         if (smellsAround.close[0] != null)
                         {
                             //found home
-                            waypoint = new Vector2f(smellsAround.close[0].Value.X, smellsAround.close[0].Value.Y);
+                            target = smellsAround.close[0].Value;
+                            waypoint = new Vector2f(target.X, target.Y);
                             foundHome = true;
                         }
                         else
@@ -108,7 +109,8 @@ namespace AntSim.Simulation.Ants
                         if (smellsAround.close[0] != null)
                         {
                             //found food
-                            waypoint = new Vector2f(smellsAround.close[0].Value.X, smellsAround.close[0].Value.Y);
+                            target = smellsAround.close[0].Value;
+                            waypoint = new Vector2f(target.X, target.Y);
                             foundFood = true;
                         }
                         else
