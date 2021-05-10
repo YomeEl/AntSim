@@ -4,6 +4,7 @@ using AntSim.Simulation.Map.Smells;
 using AntSim.Simulation.Items;
 
 using System;
+using System.Collections.Generic;
 
 using SFML.System;
 
@@ -28,17 +29,50 @@ namespace AntSim.Simulation.Ants
         public abstract void Step(float dt, Field<Cell> field);
 
         /// <summary>
-        /// Find coordinates of the most far smell from self, that is also the most strong
+        /// Finds coordinates of the closest and the farthest smells of specified types
         /// </summary>
         /// <param name="field">Field for seraching</param>
-        /// <param name="radius">Radius</param>
-        /// <param name="type">Type of smell to search</param>
-        /// <returns>Coordinates of desirable smell</returns>
-        protected (Vector2i position, bool found) FindFarSmell(Field<Cell> field, int radius)
+        /// <param name="radius">Searching radius</param>
+        /// <param name="types">Array of types to search</param>
+        /// <returns>Coordinates of the closest and the farthest smells of specified types.<para/>
+        /// close[] far[], strong[] and weak[] lengths are equal to length of types[]<para/>
+        /// close[n] is a coordinates of the closest smell of type types[n]<para/>
+        /// far[n] is a coordinates of the furthest smell of type types[n]<para/>
+        /// strong[n] is a coordinates of the strongest smell of type types[n]<para/>
+        /// weak[n] is a coordinates of the weakest smell of type types[n]</returns>
+        protected 
+            (
+            Vector2i?[] close, 
+            Vector2i?[] far, 
+            Vector2i?[] strong,
+            Vector2i?[] weak
+            ) FindSmells(Field<Cell> field, int radius, SmellType[] types)
         {
-            float dist = -1;
-            var pos = new Vector2i(0, 0);
-            int str = -1;
+            Vector2i?[] close, far, strong, weak;
+            int[] minDist, maxDist, minStr, maxStr;
+
+            close = new Vector2i?[types.Length];
+            far = new Vector2i?[types.Length];
+            strong = new Vector2i?[types.Length];
+            weak = new Vector2i?[types.Length];
+
+            minDist = new int[types.Length];
+            maxDist = new int[types.Length];
+            minStr = new int[types.Length];
+            maxStr = new int[types.Length];
+
+            for (int i = 0; i < types.Length; i++)
+            {
+                close[i] = null;
+                far[i] = null;
+                strong[i] = null;
+                weak[i] = null;
+
+                minDist[i] = 2 * radius + 1;
+                maxDist[i] = -1;
+                minStr[i] = int.MaxValue;
+                maxStr[i] = 0;
+            }
 
             var intPos = new Vector2i((int)Position.X, (int)Position.Y);
             var start = intPos - new Vector2i(radius, radius);
@@ -47,34 +81,49 @@ namespace AntSim.Simulation.Ants
             {
                 for (int j = start.Y; j <= end.Y; j++)
                 {
-                    var smell = FindSmellWithPriority(field[i, j].Smells);
-                    var curDist = Math.Abs(Position.X - i) + Math.Abs(Position.Y - j);
-                    if (smell != null && (dist < curDist || smell.Strength > str))
+                    foreach (SmellInfo smell in field[i, j].Smells)
                     {
-                        pos.X = i;
-                        pos.Y = j;
-                        dist = curDist;
-                        str = smell.Strength;
+                        int index = Find(types, smell.Type);
+                        if (index != -1)
+                        {
+                            var cur = new Vector2i(i, j);
+                            int dist = Distance(intPos, cur);
+                            if (minDist[index] > dist)
+                            {
+                                minDist[index] = dist;
+                                close[index] = cur;
+                            }
+                            if (maxDist[index] < dist)
+                            {
+                                maxDist[index] = dist;
+                                far[index] = cur;
+                            }
+                            if (minStr[index] > smell.Strength)
+                            {
+                                minStr[index] = smell.Strength;
+                                weak[index] = cur;
+                            }
+                            if (maxStr[index] < smell.Strength)
+                            {
+                                maxStr[index] = smell.Strength;
+                                strong[index] = cur;
+                            }
+                        }
                     }
                 }
             }
 
-            return (pos, dist >= 0);
+            return (close, far, strong, weak);
         }
-        
-        protected SmellInfo FindSmellWithPriority(System.Collections.Generic.List<SmellInfo> list)
+
+        protected int Find(SmellType[] array, SmellType element)
         {
-            SmellInfo smellInfo = null;
-            int priority = -1;
-            for (var i = 0; i < list.Count; i++)
+            int i = array.Length - 1;
+            while (i >= 0 && !array[i].Equals(element))
             {
-                if ((int)list[i].Type > priority)
-                {
-                    smellInfo = list[i];
-                    priority = (int)smellInfo.Type;
-                }
+                i--;
             }
-            return smellInfo;
+            return i;
         }
     }
 }
