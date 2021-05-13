@@ -2,19 +2,24 @@
 {
     class SmellInfo
     {
-        public int Strength { get; }
+        public int Strength {
+            get => IsPermanent() ? maxStrength : maxStrength - Global.Time.Get() - timestamp;
+        }
         public SmellType Type { get; }
 
-        public SmellInfo()
-        {
-            Type = SmellType.FromHome;
-            Strength = -1;
-        }
+        private int timestamp;
+        private int maxStrength;
 
-        public SmellInfo(SmellType type, int strength)
+        public SmellInfo(SmellType type)
         {
             Type = type;
-            Strength = strength;
+            timestamp = Global.Time.Get();
+            maxStrength = (int)Global.NumberConstants.Get("MaxStrength_" + type.ToString());
+        }
+
+        public bool IsPermanent()
+        {
+            return Type == SmellType.Food || Type == SmellType.Home;
         }
     }
 }

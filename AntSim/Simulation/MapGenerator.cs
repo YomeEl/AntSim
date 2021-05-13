@@ -61,7 +61,7 @@ namespace AntSim.Simulation
             food.Position = new Vector2f(posX, posY);
 
             chunk.Grid[relativeFoodPosition.X, relativeFoodPosition.Y].Item = food;
-            chunk.Grid[relativeFoodPosition.X, relativeFoodPosition.Y].Smells.Add(new Map.Smells.SmellInfo(Map.Smells.SmellType.Food, 1));
+            chunk.Grid[relativeFoodPosition.X, relativeFoodPosition.Y].Smells.Add(new Map.Smells.SmellInfo(Map.Smells.SmellType.Food));
 
             engine.Register(food);
 

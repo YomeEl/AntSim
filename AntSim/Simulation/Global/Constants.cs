@@ -38,12 +38,20 @@ namespace AntSim.Simulation.Global
                 var lineElem = line.Split('=');
                 collection.Add(lineElem[0], float.Parse(lineElem[1]));
             }
+
+            float val;
+            if (!collection.TryGetValue("ResetSettings", out val) || val != 0)
+            {
+                WriteCurrent();
+            }
         }
 
         public static float Get(string name) => collection[name];
 
         private static void SetDefault()
         {
+            collection["ResetSettings"] = 0;
+
             collection["WindowWidth"] = 800;
             collection["WindowHeight"] = 600;
 
@@ -58,6 +66,11 @@ namespace AntSim.Simulation.Global
 
             collection["FoodCount"] = 5;
             collection["FoodPileRadius"] = 25;
+
+            collection["MaxStrength_Home"] = 1;
+            collection["MaxStrength_Food"] = 1;
+            collection["MaxStrength_FromHome"] = 100;
+            collection["MaxStrength_FromFood"] = 100;
         }
 
         private static void WriteCurrent()

@@ -39,6 +39,7 @@ namespace AntSim.Simulation
                     foreach (Ant ant in colony.Ants)
                     {
                         ant.Step(deltaTime, Smells);
+                        Global.Time.Increase();
                     }
                 }
 
@@ -62,7 +63,7 @@ namespace AntSim.Simulation
 
             var queen = AntsFactory.CreateQueen();
             queen.Position = colonyPosition;
-            Smells[intCPosX, intCposY].Smells.Add(new SmellInfo(SmellType.Home, 1));
+            Smells[intCPosX, intCposY].Smells.Add(new SmellInfo(SmellType.Home));
             engine.Register(queen);
             var colony = new Colony(0, colonyPosition, queen);
             for (int i = 0; i < 100; i++)
