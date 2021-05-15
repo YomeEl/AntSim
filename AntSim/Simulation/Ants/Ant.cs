@@ -4,7 +4,6 @@ using AntSim.Simulation.Map.Smells;
 using AntSim.Simulation.Items;
 
 using System;
-using System.Collections.Generic;
 
 using SFML.System;
 
@@ -114,16 +113,6 @@ namespace AntSim.Simulation.Ants
             }
 
             return (close, far, strong, weak);
-        }
-
-        protected int Find(SmellType[] array, SmellType element)
-        {
-            int i = array.Length - 1;
-            while (i >= 0 && !array[i].Equals(element))
-            {
-                i--;
-            }
-            return i;
         }
     }
 }
