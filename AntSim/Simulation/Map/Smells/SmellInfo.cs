@@ -3,12 +3,12 @@
     class SmellInfo
     {
         public int Strength {
-            get => IsPermanent() ? maxStrength : maxStrength - Global.Time.Get() - timestamp;
+            get => IsPermanent() ? maxStrength : maxStrength - (Global.Time.Get() - timestamp);
         }
         public SmellType Type { get; }
 
-        private int timestamp;
-        private int maxStrength;
+        private readonly int timestamp;
+        private readonly int maxStrength;
 
         public SmellInfo(SmellType type)
         {
