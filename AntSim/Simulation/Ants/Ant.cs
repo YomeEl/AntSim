@@ -114,5 +114,10 @@ namespace AntSim.Simulation.Ants
 
             return (close, far, strong, weak);
         }
+        
+        protected void LeaveSmell(Field<Cell> field, SmellType type)
+        {
+            field[(int)Position.X, (int)Position.Y].Smells[type] = new SmellInfo(type);
+        }
     }
 }

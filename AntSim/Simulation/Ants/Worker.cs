@@ -148,6 +148,9 @@ namespace AntSim.Simulation.Ants
                 Direction = Normalize(waypoint - Position);
             }
             Position += Direction * dt * speed;
+
+            SmellType type = hasFood ? SmellType.FromFood : SmellType.FromHome;
+            LeaveSmell(field, type);
         }
     }
 }
