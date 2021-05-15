@@ -99,6 +99,7 @@ namespace AntSim.Simulation.Ants
                             var food = (Objects.FoodPile)field[target.X, target.Y].Item;
                             field[target.X, target.Y].Item = null;
                             food.ShouldBeDestroyed = true;
+                            field[target.X, target.Y].Smells.Remove(SmellType.Food);
                         }
                     }
                     else
