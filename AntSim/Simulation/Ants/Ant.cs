@@ -81,32 +81,32 @@ namespace AntSim.Simulation.Ants
             {
                 for (int j = start.Y; j <= end.Y; j++)
                 {
-                    foreach (SmellInfo smell in field[i, j].Smells)
+                    for (int k = 0; k < types.Length; k++)
                     {
-                        int index = Find(types, smell.Type);
-                        if (index != -1)
+                        SmellInfo smell;
+                        if (field[i, j].Smells.TryGetValue(types[k], out smell) && smell.Strength > 0)
                         {
                             var cur = new Vector2i(i, j);
                             int dist = Distance(intPos, cur);
-                            if (minDist[index] > dist)
+                            if (minDist[k] > dist)
                             {
-                                minDist[index] = dist;
-                                close[index] = cur;
+                                minDist[k] = dist;
+                                close[k] = cur;
                             }
-                            if (maxDist[index] < dist)
+                            if (maxDist[k] < dist)
                             {
-                                maxDist[index] = dist;
-                                far[index] = cur;
+                                maxDist[k] = dist;
+                                far[k] = cur;
                             }
-                            if (minStr[index] > smell.Strength)
+                            if (minStr[k] > smell.Strength)
                             {
-                                minStr[index] = smell.Strength;
-                                weak[index] = cur;
+                                minStr[k] = smell.Strength;
+                                weak[k] = cur;
                             }
-                            if (maxStr[index] < smell.Strength)
+                            if (maxStr[k] < smell.Strength)
                             {
-                                maxStr[index] = smell.Strength;
-                                strong[index] = cur;
+                                maxStr[k] = smell.Strength;
+                                strong[k] = cur;
                             }
                         }
                     }

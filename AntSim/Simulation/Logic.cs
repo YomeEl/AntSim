@@ -63,7 +63,7 @@ namespace AntSim.Simulation
 
             var queen = AntsFactory.CreateQueen();
             queen.Position = colonyPosition;
-            Smells[intCPosX, intCposY].Smells.Add(new SmellInfo(SmellType.Home));
+            Smells[intCPosX, intCposY].Smells[SmellType.Home] = new SmellInfo(SmellType.Home);
             engine.Register(queen);
             var colony = new Colony(0, colonyPosition, queen);
             for (int i = 0; i < 100; i++)
