@@ -41,7 +41,7 @@ namespace AntSim.Simulation
                 }
             }
 
-            if (position.X != 0 && position.Y != 0 && randomizer.Next(0, 4) == 0)
+            if (position.X != 0 && position.Y != 0 && randomizer.Next(0, 2) == 0)
             {
                 GenerateFoodPile(chunk, position, center, FOOD_PILE_RADIUS);
             }
