@@ -33,7 +33,7 @@ namespace AntSim.Simulation.Ants
         public override void Step(float dt, Field<Cell> field)
         {
             bool newWp = false;
-            bool fail = false;
+            bool updateWp = false;
             var dist = Distance(waypoint, Position);
 
             if (dist < 0.1f || dist > SEARCHING_RADIUS)
@@ -45,7 +45,7 @@ namespace AntSim.Simulation.Ants
                         if (dist > SEARCHING_RADIUS)
                         {
                             //missed
-                            fail = true;
+                            updateWp = true;
                             foundHome = false;
                         }
                         else
@@ -53,6 +53,7 @@ namespace AntSim.Simulation.Ants
                             //we are home
                             hasFood = false;
                             foundHome = false;
+                            updateWp = true;
                         }
                     }
                     else
@@ -76,7 +77,7 @@ namespace AntSim.Simulation.Ants
                             }
                             else
                             {
-                                fail = true;
+                                updateWp = true;
                             }
                         }
                     }
@@ -88,18 +89,22 @@ namespace AntSim.Simulation.Ants
                         if (dist > SEARCHING_RADIUS)
                         {
                             //missed
-                            fail = true;
+                            updateWp = true;
                             foundFood = false;
                         }
                         else
                         {
                             //we are on food
-                            hasFood = true;
                             foundFood = false;
                             var food = (Objects.FoodPile)field[target.X, target.Y].Item;
-                            field[target.X, target.Y].Item = null;
-                            food.ShouldBeDestroyed = true;
-                            field[target.X, target.Y].Smells.Remove(SmellType.Food);
+                            if (food != null)
+                            {
+                                field[target.X, target.Y].Item = null;
+                                food.ShouldBeDestroyed = true;
+                                field[target.X, target.Y].Smells.Remove(SmellType.Food);
+                                hasFood = true;
+                                updateWp = true;
+                            }
                         }
                     }
                     else
@@ -123,13 +128,13 @@ namespace AntSim.Simulation.Ants
                             }
                             else
                             {
-                                fail = true;
+                                updateWp = true;
                             }
                         }
                     }
                 }
 
-                if (fail)
+                if (updateWp)
                 {
                     //Generate random waypoint
                     int sgnX = (randomizer.Next(0, 10) < 5) ? 1 : -1;
@@ -137,8 +142,6 @@ namespace AntSim.Simulation.Ants
                     waypoint.X = randomizer.Next(NEW_WP_MIN_DIST, NEW_WP_MAX_DIST + 1) * sgnX;
                     waypoint.Y = randomizer.Next(NEW_WP_MIN_DIST, NEW_WP_MAX_DIST + 1) * sgnY;
                     waypoint += Position;
-
-                    newWp = true;
                 }
 
                 newWp = true;
