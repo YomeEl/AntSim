@@ -18,8 +18,6 @@ namespace AntSim.Simulation
 
         public Logic()
         {
-            Global.NumberConstants.Load();
-
             Colonies = new List<Colony>();
             var width = (uint)Global.NumberConstants.Get("WindowWidth");
             var height = (uint)Global.NumberConstants.Get("WindowHeight");
