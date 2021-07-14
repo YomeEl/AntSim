@@ -29,7 +29,7 @@ namespace AntSim.Graphics
 
             BindEvents(win);
 
-            cellSize = 30;
+            cellSize = (byte)Simulation.Global.NumberConstants.Get("CellSize");
         }
 
         public void Register(GraphicalObject obj)

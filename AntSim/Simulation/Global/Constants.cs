@@ -63,6 +63,7 @@ namespace AntSim.Simulation.Global
             collection["WorkerNewWPMaxDist"] = 10;
 
             collection["ChunkSize"] = 100;
+            collection["CellSize"] = 30;
 
             collection["FoodCount"] = 5;
             collection["FoodPileRadius"] = 25;
