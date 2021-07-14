@@ -65,6 +65,10 @@ namespace AntSim.Simulation.Global
             collection["ChunkSize"] = 100;
             collection["CellSize"] = 30;
 
+            collection["AntSizeS"] = 1;
+            collection["AntSizeM"] = 2;
+            collection["AntSizeL"] = 4;
+
             collection["FoodCount"] = 5;
             collection["FoodPileRadius"] = 25;
 
