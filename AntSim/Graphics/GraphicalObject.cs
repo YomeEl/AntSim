@@ -17,6 +17,7 @@ namespace AntSim.Graphics
                 desiredDirection = value;
             } 
         }
+        public bool IsStatic { get; set; }
         public bool ShouldBeDestroyed { get; set; }
 
         protected bool IsRotating { get; private set; }
@@ -26,7 +27,7 @@ namespace AntSim.Graphics
         private Vector2f currentDirection;
 
         private static int nextId = 0;
-        private int id;
+        private readonly int id;
 
         private byte oldCellSize = 1;
 
@@ -35,8 +36,10 @@ namespace AntSim.Graphics
             Sprite = sprite;
             Position = new Vector2f(0, 0);
             Direction = new Vector2f(0, 0);
-            IsRotating = false;
+            IsStatic = false;
             ShouldBeDestroyed = false;
+
+            IsRotating = false;
 
             id = nextId++;
         }

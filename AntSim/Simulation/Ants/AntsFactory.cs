@@ -85,7 +85,9 @@ namespace AntSim.Simulation.Ants
 
         public static Queen CreateQueen()
         {
-            return new Queen(currentAntId++, CurrentFactionId, queenSprite);
+            var queen = new Queen(currentAntId++, CurrentFactionId, queenSprite);
+            queen.IsStatic = true;
+            return queen;
         }
 
         public static Soldier CreateSoldier()

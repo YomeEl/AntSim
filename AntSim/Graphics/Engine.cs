@@ -80,7 +80,10 @@ namespace AntSim.Graphics
                     continue;
                 }
 
-                obj.UpdateDirection();
+                if (!obj.IsStatic)
+                {
+                    obj.UpdateDirection();
+                }
 
                 if (obj.Position.X >= left - maxAntSize && obj.Position.X <= left + width &&
                     obj.Position.Y >= top - maxAntSize && obj.Position.Y <= top + height)
@@ -90,15 +93,18 @@ namespace AntSim.Graphics
                         obj.Position.X * cellSize - offset.X + (int)win.Size.X / 2,
                         obj.Position.Y * cellSize - offset.Y + (int)win.Size.Y / 2
                     );
-                    double rad = Math.Atan2(obj.Direction.X, -obj.Direction.Y);
-                    float rotation = (float)(rad / Math.PI / 2 * 360f);
-                    if (rotation < 0)
-                    {
-                        rotation = 360 + rotation;
-                    }
-
-                    obj.Sprite.Rotation = rotation;
                     obj.Sprite.Position = pos;
+
+                    if (!obj.IsStatic)
+                    {
+                        double rad = Math.Atan2(obj.Direction.X, -obj.Direction.Y);
+                        float rotation = (float)(rad / Math.PI / 2 * 360f);
+                        if (rotation < 0)
+                        {
+                            rotation = 360 + rotation;
+                        }
+                        obj.Sprite.Rotation = rotation;
+                    }
 
                     win.Draw(obj.Sprite);
                 }

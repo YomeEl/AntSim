@@ -24,9 +24,9 @@ namespace AntSim.Simulation.Objects
         }
         public static FoodPile CreateFoodPile()
         {
-            {
-                return new FoodPile((uint)Global.NumberConstants.Get("FoodCount"), foodPileSprite);
-            }
+            var foodPile = new FoodPile((uint)Global.NumberConstants.Get("FoodCount"), foodPileSprite);
+            foodPile.IsStatic = true;
+            return foodPile;
         }
 
         public static void RescaleSprites(float factor)
