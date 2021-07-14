@@ -70,8 +70,8 @@ namespace AntSim.Simulation.Global
 
             collection["MaxStrength_Home"] = 1;
             collection["MaxStrength_Food"] = 1;
-            collection["MaxStrength_FromHome"] = 100;
-            collection["MaxStrength_FromFood"] = 100;
+            collection["MaxStrength_FromHome"] = 10000;
+            collection["MaxStrength_FromFood"] = 10000;
         }
 
         private static void WriteCurrent()
