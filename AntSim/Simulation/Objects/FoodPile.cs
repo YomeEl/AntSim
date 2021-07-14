@@ -9,7 +9,7 @@ namespace AntSim.Simulation.Objects
     {
         public uint Count { get; set; }
 
-        public FoodPile(uint count, Texture texture) : base(texture, 1, 1)
+        public FoodPile(uint count, Sprite sprite) : base(sprite)
         {
             Count = count;
         }

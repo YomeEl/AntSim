@@ -18,7 +18,8 @@ namespace AntSim.Simulation.Ants
         protected float speed;
         protected Random randomizer;
 
-        public Ant(uint antId, uint factionId, SFML.Graphics.Texture texture, byte width, byte height) : base(texture, width, height)
+        public Ant(uint antId, uint factionId, SFML.Graphics.Sprite sprite) : 
+            base(sprite)
         {
             AntId = antId;
             FactionId = factionId;

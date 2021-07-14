@@ -5,8 +5,8 @@ namespace AntSim.Simulation.Ants
     class Baby : Ant
     {
         public AntType Type { get; }
-        public Baby(AntType type, uint antId, uint factionId, SFML.Graphics.Texture texture, byte width, byte height) :
-            base(antId, factionId, texture, width, height)
+        public Baby(AntType type, uint antId, uint factionId, SFML.Graphics.Sprite sprite) :
+            base(antId, factionId, sprite)
         {
             Type = type;
         }

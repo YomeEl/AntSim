@@ -19,8 +19,8 @@ namespace AntSim.Simulation.Ants
 
         private bool hasFood = false;
 
-        public Worker(uint antId, uint factionId, SFML.Graphics.Texture texture, byte width, byte height) : 
-            base(antId, factionId, texture, width, height)
+        public Worker(uint antId, uint factionId, SFML.Graphics.Sprite sprite) : 
+            base(antId, factionId, sprite)
         {
             waypoint = Position;
 
@@ -36,7 +36,7 @@ namespace AntSim.Simulation.Ants
             bool updateWp = false;
             var dist = Distance(waypoint, Position);
 
-            if (dist < 0.1f || dist > SEARCHING_RADIUS)
+            if (dist < 1f || dist > SEARCHING_RADIUS)
             {
                 if (hasFood)
                 {
@@ -134,7 +134,7 @@ namespace AntSim.Simulation.Ants
                     }
                 }
 
-                if (updateWp)
+                if (updateWp && !hasFood)
                 {
                     //Generate random waypoint
                     int sgnX = (randomizer.Next(0, 10) < 5) ? 1 : -1;

@@ -13,8 +13,11 @@ namespace AntSim.Graphics
 
         private readonly RenderWindow win;
         private byte cellSize;
+        private byte oldCellSize;
         private Vector2i previousMousePosition;
         private SortedSet<GraphicalObject> objects;
+
+        private List<GraphicalObject> garbage;
 
         private Vector2f cameraPosition;
 
@@ -30,6 +33,9 @@ namespace AntSim.Graphics
             BindEvents(win);
 
             cellSize = (byte)Simulation.Global.NumberConstants.Get("CellSize");
+            oldCellSize = 1;
+
+            garbage = new List<GraphicalObject>();
         }
 
         public void Register(GraphicalObject obj)
@@ -58,7 +64,13 @@ namespace AntSim.Graphics
             int height = (int)win.Size.Y / cellSize + 1;
             (int X, int Y) offset = ((int)cameraPosition.X, (int)cameraPosition.Y);
 
-            var garbage = new List<GraphicalObject>();
+            if (cellSize != oldCellSize)
+            {
+                var factor = (float)cellSize / oldCellSize;
+                Simulation.Ants.AntsFactory.RescaleSprites(factor);
+                Simulation.Objects.ObjectsFactory.RescaleSprites(factor);
+                oldCellSize = cellSize;
+            }
 
             foreach (GraphicalObject obj in objects)
             {
@@ -78,25 +90,17 @@ namespace AntSim.Graphics
                         obj.Position.X * cellSize - offset.X + (int)win.Size.X / 2,
                         obj.Position.Y * cellSize - offset.Y + (int)win.Size.Y / 2
                     );
-                    var sprite = new Sprite(obj.Texture)
-                    {
-                        Scale = new Vector2f(
-                            (float)cellSize * obj.Size.W / obj.Texture.Size.X,
-                            (float)cellSize * obj.Size.H / obj.Texture.Size.Y
-                        )
-                    };
-                    sprite.Origin += new Vector2f(sprite.GetLocalBounds().Height, sprite.GetLocalBounds().Width) / 2;
                     double rad = Math.Atan2(obj.Direction.X, -obj.Direction.Y);
                     float rotation = (float)(rad / Math.PI / 2 * 360f);
                     if (rotation < 0)
                     {
                         rotation = 360 + rotation;
                     }
-                    
-                    sprite.Rotation = rotation;
-                    sprite.Position = pos;
 
-                    win.Draw(sprite);
+                    obj.Sprite.Rotation = rotation;
+                    obj.Sprite.Position = pos;
+
+                    win.Draw(obj.Sprite);
                 }
             }
 
@@ -128,7 +132,7 @@ namespace AntSim.Graphics
             ChangeCellSize(e.Delta);
         }
 
-        private void Win_Closed(object sender, System.EventArgs e)
+        private void Win_Closed(object sender, EventArgs e)
         {
             Active = false;
 

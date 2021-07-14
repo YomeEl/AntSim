@@ -7,8 +7,7 @@ namespace AntSim.Graphics
 {
     class GraphicalObject : IComparable
     {
-        public Texture Texture { get; }
-        public (byte W, byte H) Size { get; }
+        public Sprite Sprite { get; }
         public Vector2f Position { get; set; }
         public Vector2f Direction 
         { 
@@ -29,10 +28,11 @@ namespace AntSim.Graphics
         private static int nextId = 0;
         private int id;
 
-        public GraphicalObject(Texture texture, byte width, byte height)
+        private byte oldCellSize = 1;
+
+        public GraphicalObject(Sprite sprite)
         {
-            Texture = texture;
-            Size = (width, height);
+            Sprite = sprite;
             Position = new Vector2f(0, 0);
             Direction = new Vector2f(0, 0);
             IsRotating = false;
@@ -68,6 +68,15 @@ namespace AntSim.Graphics
             else
             {
                 IsRotating = false;
+            }
+        }
+
+        public void RescaleSprite(byte cellSize)
+        {
+            if (cellSize != oldCellSize)
+            {
+                Sprite.Scale *= (float)cellSize / oldCellSize;
+                oldCellSize = cellSize;
             }
         }
         
