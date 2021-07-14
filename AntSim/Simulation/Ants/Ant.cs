@@ -82,8 +82,7 @@ namespace AntSim.Simulation.Ants
                 {
                     for (int k = 0; k < types.Length; k++)
                     {
-                        SmellInfo smell;
-                        if (field[i, j].Smells.TryGetValue(types[k], out smell) && smell.Strength > 0)
+                        if (field[i, j].TryGetSmell(types[k], out SmellInfo smell))
                         {
                             var cur = new Vector2i(i, j);
                             int dist = Distance(intPos, cur);
@@ -117,7 +116,7 @@ namespace AntSim.Simulation.Ants
         
         protected void LeaveSmell(Field<Cell> field, SmellType type)
         {
-            field[(int)Position.X, (int)Position.Y].Smells[type] = new SmellInfo(type);
+            field[(int)Position.X, (int)Position.Y].SetSmell(type);
         }
     }
 }

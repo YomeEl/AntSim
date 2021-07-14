@@ -101,7 +101,7 @@ namespace AntSim.Simulation.Ants
                             {
                                 field[target.X, target.Y].Item = null;
                                 food.ShouldBeDestroyed = true;
-                                field[target.X, target.Y].Smells.Remove(SmellType.Food);
+                                field[target.X, target.Y].RemoveSmell(SmellType.Food);
                                 hasFood = true;
                                 updateWp = true;
                             }
