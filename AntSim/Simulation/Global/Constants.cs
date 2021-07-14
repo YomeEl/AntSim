@@ -69,6 +69,8 @@ namespace AntSim.Simulation.Global
             collection["AntSizeM"] = 2;
             collection["AntSizeL"] = 4;
 
+            collection["FoodPileSize"] = 1;
+
             collection["FoodCount"] = 5;
             collection["FoodPileRadius"] = 25;
 
