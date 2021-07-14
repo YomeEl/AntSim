@@ -84,10 +84,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Simulation\Ants\Ant.cs" />
     <Compile Include="Simulation\Ants\AntsFactory.cs" />
-    <Compile Include="Simulation\Ants\Baby.cs" />
-    <Compile Include="Simulation\Ants\Babysitter.cs" />
     <Compile Include="Simulation\Ants\Queen.cs" />
-    <Compile Include="Simulation\Ants\Soldier.cs" />
     <Compile Include="Simulation\Ants\Worker.cs" />
     <Compile Include="Simulation\Ants\Enums.cs" />
     <Compile Include="Simulation\Colony.cs" />
