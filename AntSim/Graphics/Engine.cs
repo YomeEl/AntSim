@@ -48,7 +48,7 @@ namespace AntSim.Graphics
             objects.Remove(obj);
         }
 
-        public bool Draw()
+        public void Draw()
         {
             ProcessCameraEvents();
 
@@ -119,8 +119,6 @@ namespace AntSim.Graphics
             win.Display();
 
             win.DispatchEvents();
-
-            return win.IsOpen;
         }
 
         private void ChangeCellSize(float amount)
