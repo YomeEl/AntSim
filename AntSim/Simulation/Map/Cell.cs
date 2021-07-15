@@ -1,49 +1,51 @@
 ﻿using AntSim.Simulation.Map.Smells;
 using AntSim.Simulation.Items;
 
-using System.Collections.Generic;
-
 namespace AntSim.Simulation.Map
 {
     class Cell
     {
         public IItem Item { get; set; }
 
-        private readonly Dictionary<SmellType, SmellInfo> smells;
+        private readonly int[] smells;
+        private readonly int[] timestamps;
 
         public Cell()
         {
             Item = null;
-            smells = new Dictionary<SmellType, SmellInfo>();
+
+            smells = new int[SmellInfo.TYPES_COUNT];
+            timestamps = new int[SmellInfo.TYPES_COUNT];
+
+            for (int i = 0; i < smells.Length; i++)
+            {
+                smells[i] = 0;
+                timestamps[i] = 0;
+            }
         }
 
         public void SetSmell(SmellType type)
         {
-            smells[type] = new SmellInfo(type);
+            smells[(uint)type] = SmellInfo.GetMaxStrength(type);
+            timestamps[(uint)type] = Global.Time.Get();
         }
 
-        public bool TryGetSmell(SmellType type, out SmellInfo smellInfo)
+        public int GetSmell(SmellType type)
         {
-            if (smells.TryGetValue(type, out SmellInfo smell))
+            var maxStrength = SmellInfo.GetMaxStrength(type);
+            if (SmellInfo.IsPermanent(type))
             {
-                if (smell.Strength > 0)
-                {
-                    smellInfo = smell;
-                    return true;
-                }
-                else
-                {
-                    RemoveSmell(type);
-                }
+                return smells[(uint)type];
             }
-
-            smellInfo = new SmellInfo(SmellType.Home);
-            return false;
+            {
+                return (int)(smells[(uint)type] - (Global.Time.Get() - timestamps[(uint)type]));
+            }
+            
         }
 
         public void RemoveSmell(SmellType type)
         {
-            smells.Remove(type);
+            smells[(uint)type] = 0;
         }
     }
 }

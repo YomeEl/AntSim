@@ -83,7 +83,8 @@ namespace AntSim.Simulation.Ants
                 {
                     for (int k = 0; k < types.Length; k++)
                     {
-                        if (field[i, j].TryGetSmell(types[k], out SmellInfo smell))
+                        var smellStrength = field[i, j].GetSmell(types[k]);
+                        if (smellStrength > 0)
                         {
                             var cur = new Vector2i(i, j);
                             int dist = Distance(intPos, cur);
@@ -97,14 +98,14 @@ namespace AntSim.Simulation.Ants
                                 maxDist[k] = dist;
                                 far[k] = cur;
                             }
-                            if (minStr[k] > smell.Strength)
+                            if (minStr[k] > smellStrength)
                             {
-                                minStr[k] = smell.Strength;
+                                minStr[k] = (int)smellStrength;
                                 weak[k] = cur;
                             }
-                            if (maxStr[k] < smell.Strength)
+                            if (maxStr[k] < smellStrength)
                             {
-                                maxStr[k] = smell.Strength;
+                                maxStr[k] = (int)smellStrength;
                                 strong[k] = cur;
                             }
                         }
