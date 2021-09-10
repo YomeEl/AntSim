@@ -64,7 +64,7 @@ namespace AntSim.Simulation.Global
 
             collection["ChunkSize"] = 100;
 
-            collection["FoodCount"] = 5;
+            collection["FoodCount"] = 6;
             collection["FoodPileRadius"] = 25;
 
             collection["MaxStrength_Home"] = 1;
